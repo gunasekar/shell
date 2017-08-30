@@ -6,6 +6,11 @@ alias play="mpv -shuffle *"
 alias gs="git status"
 alias gc="git commit"
 
+function add-alias-to-zsh {
+	echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
+	echo "[alias $1=\"cd $(pwd)\"] is added to ~/.alias.sh"
+}
+
 ##### aws
 export AWS_SDK_LOAD_CONFIG=1
 
