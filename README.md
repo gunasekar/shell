@@ -1,12 +1,12 @@
-#shell
+# shell
 
 run-control.sh is a script to set up your shell with productive environment settings
 
-##Requirements
+## Requirements
 
 Ideally any shell should be supported. bash and zsh shells are tested though. Some commands are supported only if the corresponding packages are available.
 
-##How to use
+## How to use
 Download the script:
 
 ```sh
@@ -31,7 +31,7 @@ Apply the downloaded run-controls by appending the following line in your .bashr
 source run-control.sh
 ```
 
-##What it provides you
+## What it provides you
 
 Commands and aliases which helps increase your productivity,
 
@@ -54,7 +54,7 @@ Commands and aliases which helps increase your productivity,
 17. `play` plays the media files from the current directory using mplayer in a shuffled manner
 
 
-##License
+## License
 
 shell is free software and may be redistributed under the terms specified in the [LICENSE] file.
 

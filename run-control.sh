@@ -92,7 +92,7 @@ function play_sound {
 function get-audio {
 	local pacdies=~/.pacdies.mp3
 	if ! [ -f $pacdies ]; then
-		wget "https://raw.githubusercontent.com/gunasekar/custom/master/shell/pacdies.mp3" -O $pacdies
+		wget "https://raw.githubusercontent.com/gunasekar/shell/master/pacdies.mp3" -O $pacdies
 	fi
 
 	echo $pacdies
