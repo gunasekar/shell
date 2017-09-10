@@ -52,6 +52,7 @@ Commands and aliases which helps increase your productivity,
 15. `dl-audio` downloads the audio in highest available quality in mp3 format using youtube-dl for the provided url
 16. `dl-video` downloads the video in highest available quality using youtube-dl for the provided url
 17. `play` plays the media files from the current directory using mplayer in a shuffled manner
+18. `download-320kbps-starmusiq` and `download-and-unzip-320kbps-starmusiq` downloads 320Kbps songs from StarMusiq fpr the given list of Movie IDs
 
 
 ## License
