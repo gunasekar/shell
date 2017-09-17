@@ -11,6 +11,20 @@ function add-alias-to-zsh {
 	echo "[alias $1=\"cd $(pwd)\"] is added to ~/.alias.sh"
 }
 
+function enable-ubuntu-partners-repo {
+	sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list
+}
+
+##### ssh
+
+function test-SSH-github {
+	ssh -T git@github.com
+}
+
+function test-SSH-bitbucket {
+	ssh -T git@bitbucket.org
+}
+
 ##### aws
 export AWS_SDK_LOAD_CONFIG=1
 
