@@ -1,10 +1,38 @@
-rc="source "$(pwd)"/run-control.sh"
-echo $rc >> ~/.zshrc
-echo $rc >> ~/.bash_profile
+#!/bin/bash
 
-# Setup alias and add it to rc
-echo "source ~/.alias.sh" >> ~/.zshrc
-echo "source ~/.alias.sh" >> ~/.bash_profile
+sourceRC="source "$(pwd)"/run-control.sh"
 
-echo "source ~/.custom.sh" >> ~/.zshrc
-echo "source ~/.custom.sh" >> ~/.bash_profile
+function addToRC {
+  rc=$1
+  if [ -e $rc ]
+  then
+    printf "\n\n" >> $rc
+  	echo "##### Source Files" >> $rc
+    echo $sourceRC >> $rc
+
+    aliasFile="$HOME/.alias.sh"
+    if [ ! -e $aliasFile ]
+    then
+      touch $aliasFile
+    fi
+
+    echo "source ~/.alias.sh" >> $rc
+
+    customFile="$HOME/.custom.sh"
+    if [ ! -e $customFile ]
+    then
+      touch $customFile
+    fi
+
+    echo "source ~/.custom.sh" >> $rc
+    echo $rc "found. Added the requested sources."
+  else
+    echo $rc "not found. Ignored."
+  fi
+}
+
+file="$HOME/.zshrc"
+addToRC $file
+
+file="$HOME/.bash_profile"
+addToRC $file
