@@ -54,6 +54,9 @@ Commands and aliases which helps increase your productivity,
 17. `play` plays the media files from the current directory using mplayer in a shuffled manner
 18. `download-320kbps-starmusiq` and `download-and-unzip-320kbps-starmusiq` downloads 320Kbps songs from StarMusiq fpr the given list of Movie IDs
 
+## BitBar Plugins
+Plugin repository for BitBar https://getbitbar.com
+1. totp.20s.sh - Generates totp tokens every 20s. Allows to copy values to clipboard upon mouse click from BitBar Menu. Change the file name to customise the refresh rate.
 
 ## License
 
