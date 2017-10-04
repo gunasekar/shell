@@ -25,6 +25,18 @@ function test-SSH-bitbucket {
 	ssh -T git@bitbucket.org
 }
 
+function test-SSH-gitlab {
+	ssh -T git@gitlab.com
+}
+
+function get-ssh-pubkey {
+	pbcopy < ~/.ssh/id_rsa.pub
+}
+
+function get-gpg-pubkey {
+	gpg --armor --export $1 | pbcopy
+}
+
 ##### aws
 export AWS_SDK_LOAD_CONFIG=1
 
@@ -171,4 +183,8 @@ function download-and-unzip-320kbps-starmusiq {
 		unzip $id.zip
 		rm -f $id.zip
 	done
+}
+
+function show-cal {
+	cal | grep --before-context 6 --after-context 6 --color -e " $(date +%e)" -e "^$(date +%e)"
 }
