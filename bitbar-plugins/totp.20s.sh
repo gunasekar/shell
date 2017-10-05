@@ -19,9 +19,11 @@ vpnsecrets=( "OpenVPN:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
         "GrabTaxi:2b2drladcdoxtpheuom6t4zjsr6tq7ix" )
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
-# update the appropriate path of oathtool binary in the below function
+# update the appropriate path of oathtool binary below
+oathtool="/usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool"
+
 function get-totp {
-  echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "$1" )"
+  $oathtool --totp -b "$1"
 }
 
 if [[ "$1" == "copy" ]]; then
@@ -38,5 +40,5 @@ for secret in "${vpnsecrets[@]}" ; do
     KEY="${secret%%:*}"
     VALUE="${secret##*:}"
     token=$( get-totp "$VALUE" )
-    echo "$KEY | bash='$0' param1=copy param2='$VALUE' terminal=false"
+    echo "$KEY | bash='$0' param1=copy param2='$token' terminal=false"
 done
