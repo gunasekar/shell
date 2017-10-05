@@ -4,43 +4,39 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Gunasekaran Namachivayam</bitbar.author>
 # <bitbar.author.github>gunasekar</bitbar.author.github>
-# <bitbar.desc>This plugin will generate the tokens and allows to copy them to clipboard</bitbar.desc>
+# <bitbar.desc>This plugin will generate the TOTP tokens and allows to copy them to clipboard</bitbar.desc>
 
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 
-# oath-toolkit needs to be installed. I have used 'brew install oath-toolkit'
-# update the appropriate path of oathtool binary in the below function along with your secret
-function get-totp {
-  case "$1" in
-    ("VPN") echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "<secret>" )" ;;
-    ("BitBucket") echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "<secret>" )" ;;
-    ("GitHub") echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "<secret>" )" ;;
-    ("Google") echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "<secret>" )" ;;
-    ("Okta") echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "<secret>" )" ;;
-    (*) echo "NIL" ;;
-  esac
-}
+# update the key value pairs as per your requirement
+# Key - for your reference to identify a TOTP Account
+# Value - base32 secret key corresponding to the TOTP Account
+vpnsecrets=( "OpenVPN:A0B1C2D3E4F5G6H7I8J9K0"
+        "BitBucket:A0B1C2D3E4F5G6H7I8J9K0"
+        "GitHub:A0B1C2D3E4F5G6H7I8J9K0"
+        "Okta:A0B1C2D3E4F5G6H7I8J9K0"
+        "GrabTaxi:A0B1C2D3E4F5G6H7I8J9K0" )
 
-# Write the list of Text you want enabled
-LIST="VPN
-BitBucket
-GitHub
-Google
-Okta"
+# oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
+# update the appropriate path of oathtool binary in the below function
+function get-totp {
+  echo "$( /usr/local/Cellar/oath-toolkit/2.6.2/bin/oathtool --totp -b "$1" )"
+}
 
 if [[ "$1" == "copy" ]]; then
   echo -n "$(echo -n "$2")" | pbcopy
   exit
 fi
 
-echo "🕘"
+echo "⏳"
 echo '---'
 echo "Clear Clipboard | bash='$0' param1=copy param2=' ' terminal=false"
 echo "---"
-while read -r line; do
-  if ! [ "$line" == "" ]; then
-    token=$( get-totp "$line" )
-    echo "$line | bash='$0' param1=copy param2='$token' terminal=false"
-  fi
-done <<< "$LIST"
+
+for secret in "${vpnsecrets[@]}" ; do
+    KEY="${secret%%:*}"
+    VALUE="${secret##*:}"
+    token=$( get-totp "$VALUE" )
+    echo "$KEY | bash='$0' param1=copy param2='$VALUE' terminal=false"
+done

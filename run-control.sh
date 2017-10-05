@@ -15,8 +15,17 @@ function enable-ubuntu-partners-repo {
 	sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list
 }
 
-##### ssh
+##### oath-toolkit
+function totp {
+  for secret in "${vpnsecrets[@]}" ; do
+      KEY="${secret%%:*}"
+      VALUE="${secret##*:}"
+      TOKEN="$( oathtool --totp -b $VALUE )"
+      echo "$KEY: $TOKEN"
+  done
+}
 
+##### ssh
 function test-SSH-github {
 	ssh -T git@github.com
 }
