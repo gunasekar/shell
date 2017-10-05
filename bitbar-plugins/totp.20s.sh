@@ -12,11 +12,11 @@ export LANG="${LANG:-en_US.UTF-8}"
 # update the key value pairs as per your requirement
 # Key - for your reference to identify a TOTP Account
 # Value - base32 secret key corresponding to the TOTP Account
-vpnsecrets=( "OpenVPN:A0B1C2D3E4F5G6H7I8J9K0"
-        "BitBucket:A0B1C2D3E4F5G6H7I8J9K0"
-        "GitHub:A0B1C2D3E4F5G6H7I8J9K0"
-        "Okta:A0B1C2D3E4F5G6H7I8J9K0"
-        "GrabTaxi:A0B1C2D3E4F5G6H7I8J9K0" )
+vpnsecrets=( "OpenVPN:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
+        "BitBucket:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
+        "GitHub:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
+        "Okta:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
+        "GrabTaxi:2b2drladcdoxtpheuom6t4zjsr6tq7ix" )
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
 # update the appropriate path of oathtool binary in the below function
