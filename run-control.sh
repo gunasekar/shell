@@ -17,7 +17,7 @@ function enable-ubuntu-partners-repo {
 
 ##### oath-toolkit
 function totp {
-  for secret in "${vpnsecrets[@]}" ; do
+  for secret in "${totp_secrets[@]}" ; do
       KEY="${secret%%:*}"
       VALUE="${secret##*:}"
       TOKEN="$( oathtool --totp -b $VALUE )"
