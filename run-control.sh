@@ -39,11 +39,19 @@ function test-SSH-gitlab {
 }
 
 function get-ssh-pubkey {
-	pbcopy < ~/.ssh/id_rsa.pub
+	if hash pbcopy 2>/dev/null; then
+	    pbcopy < ~/.ssh/id_rsa.pub
+	else
+	    xclip -selection c ~/.ssh/id_rsa.pub
+	fi
 }
 
 function get-gpg-pubkey {
-	gpg --armor --export $1 | pbcopy
+	if hash pbcopy 2>/dev/null; then
+	    gpg --armor --export $1 | pbcopy
+	else
+	    gpg --armor --export $1 | xclip -selection c
+	fi
 }
 
 ##### aws
