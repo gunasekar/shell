@@ -179,7 +179,7 @@ function download-320kbps-starmusiq {
 		find_quoted=$(printf '%s' "$find" | sed 's/[#\]/\\\0/g')
 		replace="download-7s-zip-new/download-3.ashx"
 		replace_quoted=$(printf '%s' "$replace" | sed 's/[#\]/\\\0/g')
-		download_url=$(wget -qO- http://www.5starmusiq.com/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.info/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
+		download_url=$(wget -qO- http://www.sunmusiq.com/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.info/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
 		echo "Downloading..." $download_url
 		wget $download_url -O $id.zip
 	done
