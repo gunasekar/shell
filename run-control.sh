@@ -172,14 +172,29 @@ function notify-after {
 	notify-after-fg "$@" &
 }
 
+function get-latest-songs {
+	base_url="http://www.sunmusiq.com"
+	echo "Tamil"
+	wget -qO- "$base_url/all-process.asp?action=LoadChannelsTamil" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+	echo "\nTamilPop"
+	wget -qO- "http://www.sunmusiq.com/all-process.asp?action=LoadChannelsTamilPop" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+	echo "\nMalayalam"
+	wget -qO- "http://www.sunmusiq.com/all-process.asp?action=LoadChannelsMalayalam" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+	echo "\nTelugu"
+	wget -qO- "http://www.sunmusiq.com/all-process.asp?action=LoadChannelsTelugu" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+	echo "\nHindi"
+	wget -qO- "http://www.sunmusiq.com/all-process.asp?action=LoadChannelsHindi" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+}
+
 function download-320kbps-starmusiq {
+	base_url="http://www.sunmusiq.com"
 	for id in $@
 	do
 		find="download-7s-zip-new/"
 		find_quoted=$(printf '%s' "$find" | sed 's/[#\]/\\\0/g')
 		replace="download-7s-zip-new/download-3.ashx"
 		replace_quoted=$(printf '%s' "$replace" | sed 's/[#\]/\\\0/g')
-		download_url=$(wget -qO- http://www.sunmusiq.com/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.info/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
+		download_url=$(wget -qO- $base_url/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.info/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
 		echo "Downloading..." $download_url
 		wget $download_url -O $id.zip
 	done
