@@ -28,6 +28,17 @@ function get-totp {
   $oathtool --totp -b "$1"
 }
 
+function get-pwd {
+    for secret in "${secrets[@]}" ; do
+        KEY="${secret%%:*}"
+        VALUE="${secret##*:}"
+        if [ "$KEY" = "$1" ]; then
+            echo $VALUE
+            break
+        fi
+    done
+}
+
 if [[ "$1" == "copy" ]]; then
   echo -n "$(echo -n "$2")" | pbcopy
   exit
@@ -42,5 +53,10 @@ for secret in "${totp_secrets[@]}" ; do
     KEY="${secret%%:*}"
     VALUE="${secret##*:}"
     token=$( get-totp "$VALUE" )
-    echo "$KEY | bash='$0' param1=copy param2='$token' terminal=false"
+    pwd=$( get-pwd "$KEY" )
+    echo "$KEY"
+    echo "--TOTP | bash='$0' param1=copy param2='$token' terminal=false"
+    if [ -n "$pwd" ]; then
+        echo "--PWD | bash='$0' param1=copy param2='$pwd' terminal=false"
+    fi
 done
