@@ -55,8 +55,8 @@ for secret in "${totp_secrets[@]}" ; do
     token=$( get-totp "$VALUE" )
     pwd=$( get-pwd "$KEY" )
     echo "$KEY"
-    echo "--TOTP | bash='$0' param1=copy param2='$token' terminal=false"
     if [ -n "$pwd" ]; then
         echo "--PWD | bash='$0' param1=copy param2='$pwd' terminal=false"
     fi
+    echo "--TOTP | bash='$0' param1=copy param2='$token' terminal=false"
 done
