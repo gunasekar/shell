@@ -54,6 +54,10 @@ function get-gpg-pubkey {
 	fi
 }
 
+function generate-ssh-key {
+	ssh-keygen -t rsa -b 4096 -C "$1"
+}
+
 ##### aws
 export AWS_SDK_LOAD_CONFIG=1
 
@@ -63,10 +67,6 @@ function show-aws-creds {
 
 
 ##### golang
-export GOROOT=/usr/local/go
-export GOPATH=/Users/guna/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
 function go-build-linux {
 	if [ "$1" = "" ]; then
 	env GOOS=linux GOARCH=amd64 go build -o main-linux
