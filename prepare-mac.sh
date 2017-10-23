@@ -28,6 +28,7 @@ brew cask install macvim
 brew cask install postman
 brew install mono
 brew cask install fiddler
+brew cask install docker
 brew install docker --a
 brew install docker-compose
 
