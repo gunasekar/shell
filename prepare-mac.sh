@@ -18,7 +18,8 @@ function help {
   echo "12 - customize_mpv"
   echo "13 - customize_bitbar"
   echo "14 - customise_ytdl"
-  echo "Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
+  echo "-> Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
+  echo "-> Other tools - TadViewer[http://tadviewer.com]"
 }
 
 function prep_brew {
