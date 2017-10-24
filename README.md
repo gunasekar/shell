@@ -58,6 +58,13 @@ Commands and aliases which helps increase your productivity,
 Plugin repository for BitBar https://getbitbar.com
 1. totp.20s.sh - Generates totp tokens every 20s. Allows to copy values to clipboard upon mouse click from BitBar Menu. Change the file name to customise the refresh rate.
 
+## Mac Installations
+Download the script:
+
+```sh
+curl --remote-name https://raw.githubusercontent.com/gunasekar/shell/master/prepare-mac.sh
+```
+
 ## License
 
 shell is free software and may be redistributed under the terms specified in the [LICENSE] file.
