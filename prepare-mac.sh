@@ -7,7 +7,8 @@ function help {
   echo "2 - tools [chrome, wget, ranger, oath-toolkit]"
   echo "3 - terminal [iterm2]"
   echo "4 - shell [zsh]"
-  echo "5 - languages [go, node, java]"
+  echo "5 - languages [go, node, java]\n  --- For brew installed Go, have the following exports,\
+  export GOROOT=/usr/local/opt/go/libexec"
   echo "6 - development tools [atom, mqsql, dbeaver, mysqlworkbench, macvim, postman]"
   echo "7 - virtualization tools [docker]"
   echo "8 - communication tools [slack, skype]"
@@ -30,6 +31,7 @@ function prep_tools {
   brew install wget
   brew install ranger
   brew install oath-toolkit
+  brew cask install filezilla
 }
 
 ##### terminals
