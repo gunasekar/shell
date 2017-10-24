@@ -17,7 +17,8 @@ function help {
   echo "11 - customize_go"
   echo "12 - customize_mpv"
   echo "13 - customize_bitbar"
-  echo "Mac AppStore Applications - RDP Client, Monosnap"
+  echo "14 - customise_ytdl"
+  echo "Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
 }
 
 function prep_brew {
@@ -95,6 +96,13 @@ function customize_mpv {
   cd ~/.config/mpv/
   ln -s ~/sources/shell/conf/mpv.conf mpv.conf
   cd ~
+}
+
+##### customize youtube-dl
+function customize_ytdl {
+  touch ~/.config/youtube-dl.conf
+  mkdir -p "$HOME/Downloads/Videos"
+  echo "--output \"$HOME/Downloads/Videos/%(title)s.%(ext)s\"" >> ~/.config/youtube-dl.conf
 }
 
 ##### add bitbar-plugins
@@ -188,6 +196,10 @@ do
 
     13)
     customize_bitbar
+    ;;
+
+    14)
+    customize_ytdl
     ;;
 
     *)

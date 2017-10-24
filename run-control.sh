@@ -217,6 +217,11 @@ function download-and-unzip-320kbps-starmusiq {
 	done
 }
 
+function yt-dl {
+	mkdir -p "$HOME/Downloads/Videos"
+	youtube-dl -o "$HOME/Downloads/Videos/%(title)s.%(ext)s" $@
+}
+
 function show-cal {
 	cal | grep --before-context 6 --after-context 6 --color -e " $(date +%e)" -e "^$(date +%e)"
 }
