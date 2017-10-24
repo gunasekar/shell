@@ -48,6 +48,7 @@ function prep_shell {
 ##### languages
 function prep_languages {
   brew install go
+  brew install protobuf
   brew install node
   brew cask install java
 }
