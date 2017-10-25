@@ -117,6 +117,8 @@ function docker-ips {
 alias stream-yt-720='mpv --ytdl-format=22 $1'
 alias stream-yt-360='mpv --ytdl-format=18 $1'
 alias stream-hs-360='mpv --ytdl-format=hls-861 $1'
+alias stream-fb-sd='mpv --ytdl-format=dash_sd_src $1'
+alias stream-fb-hd='mpv --ytdl-format=dash_hd_src $1'
 
 ##### youtube-dl
 
