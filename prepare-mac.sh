@@ -34,6 +34,7 @@ function prep_tools {
   brew install ranger
   brew install oath-toolkit
   brew cask install filezilla
+  brew cask install itsycal
 }
 
 ##### terminals
