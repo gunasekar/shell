@@ -3,8 +3,6 @@ alias load-bash="source ~/.bashrc"
 alias load-zsh="source ~/.zshrc"
 alias uts="date +%s"
 alias play="mpv -shuffle *"
-alias gs="git status"
-alias gc="git commit"
 
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
@@ -80,10 +78,6 @@ function go-build-linux {
     fi
 }
 
-##### redis
-alias redis-start="launchctl start io.redis.redis-server"
-alias redis-stop="launchctl stop io.redis.redis-server"
-
 ##### mysql
 function start-mysql {
     brew services start mysql | 2>&1 > /dev/null
@@ -123,21 +117,23 @@ alias stream-fb-hd='mpv --ytdl-format=dash_hd_src $1'
 
 ##### youtube-dl
 function dl-audio {
-    youtube-dl -x --audio-format mp3 --audio-quality 0 "$1"
-}
-
-function dl-video {
-    youtube-dl "$1"
-}
-
-function yt-dl {
     if ! hash youtube-dl 2>/dev/null; then
         echo "youtube-dl not found. brewing..."
         brew install youtube-dl
     fi
 
-    mkdir -p "$HOME/Downloads/Videos"
-    youtube-dl -o "$HOME/Downloads/Videos/%(title)s.%(ext)s" $@
+    mkdir -p "$HOME/Downloads/media/audio"
+    youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$HOME/Downloads/media/audio/%(title)s.%(ext)s" $@
+}
+
+function dl-video {
+    if ! hash youtube-dl 2>/dev/null; then
+        echo "youtube-dl not found. brewing..."
+        brew install youtube-dl
+    fi
+
+    mkdir -p "$HOME/Downloads/media/video"
+    youtube-dl -o "$HOME/Downloads/media/video/%(title)s.%(ext)s" $@
 }
 
 ##### custom
@@ -149,10 +145,6 @@ function get-open-ports {
 
     ip=$(ifconfig | grep -e 'inet.*broadcast' | awk  '{print $2}')
     nmap $ip/24 | grep "open" -B 4
-}
-
-function show-cal {
-    cal | grep --before-context 6 --after-context 6 --color -e " $(date +%e)" -e "^$(date +%e)"
 }
 
 function play_sound {
