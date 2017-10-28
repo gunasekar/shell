@@ -141,6 +141,16 @@ function yt-dl {
 }
 
 ##### custom
+function get-open-ports {
+    if ! hash nmap 2>/dev/null; then
+        echo "nmap not found. brewing..."
+        brew install nmap
+    fi
+
+    ip=$(ifconfig | grep -e 'inet.*broadcast' | awk  '{print $2}')
+    nmap $ip/24 | grep "open" -B 4
+}
+
 function show-cal {
     cal | grep --before-context 6 --after-context 6 --color -e " $(date +%e)" -e "^$(date +%e)"
 }
@@ -196,7 +206,7 @@ function notify-after {
     notify-after-fg "$@" &
 }
 
-#####
+##### music related
 music_url="http://www.sunmusiq.com"
 function get-latest-songs {
     echo "Tamil"

@@ -65,6 +65,7 @@ function prep_dev_tools {
     brew cask install mysqlworkbench
     brew cask install macvim
     brew cask install postman
+    brew install nmap
 }
 
 function prep_docker {
