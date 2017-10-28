@@ -1,34 +1,31 @@
 #!/bin/bash
 
-sourceRC="source "$(pwd)"/run-control.sh"
+function appendToFile {
+    if grep -q "$1" "$2"; then
+        echo $1 "was already added to" $2
+    else
+        printf "\n" >> $2
+        echo $1 >> $2
+        echo "Added the requested source -" $1
+    fi
+}
 
 function addToRC {
-  rc=$1
-  if [ -e $rc ]
-  then
-    printf "\n\n" >> $rc
-  	echo "##### Source Files" >> $rc
-    echo $sourceRC >> $rc
-
-    aliasFile="$HOME/.alias.sh"
-    if [ ! -e $aliasFile ]
+    rc=$1
+    if [ -e $rc ]
     then
-      touch $aliasFile
+        echo "$rc found! Adding sources..."
+        appendToFile "source $(pwd)/run-control.sh" "$rc"
+
+        echo "Do you want to add aliases and custom sources for Grab?(y/n)"
+        read action
+        if [ "$action" == "y" ]; then
+            appendToFile "source $(pwd)/grab/alias.sh" $rc
+            appendToFile "source $(pwd)/grab/custom.sh" $rc
+        fi
+    else
+        echo $rc "not found. Ignored."
     fi
-
-    echo "source ~/.alias.sh" >> $rc
-
-    customFile="$HOME/.custom.sh"
-    if [ ! -e $customFile ]
-    then
-      touch $customFile
-    fi
-
-    echo "source ~/.custom.sh" >> $rc
-    echo $rc "found. Added the requested sources."
-  else
-    echo $rc "not found. Ignored."
-  fi
 }
 
 file="$HOME/.zshrc"
