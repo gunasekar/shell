@@ -35,6 +35,7 @@ function prep_tools {
   brew install oath-toolkit
   brew cask install filezilla
   brew cask install itsycal
+  brew install jq
 }
 
 ##### terminals
