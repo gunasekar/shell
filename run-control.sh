@@ -210,6 +210,11 @@ function search-albums {
 }
 
 function download-320kbps-starmusiq {
+	if ! hash wget 2>/dev/null; then
+		echo "wget not found. brewing..."
+		brew install wget
+	fi
+
 	base_url="http://www.sunmusiq.com"
 	for id in $@
 	do
