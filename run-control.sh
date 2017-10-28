@@ -197,6 +197,11 @@ function get-latest-songs {
 }
 
 function search-albums {
+	if ! hash jq 2>/dev/null; then
+		echo "jq not found. brewing..."
+		brew install jq
+	fi
+
 	result=$(curl -s "http://www.sunmusiq.com/all-process.asp?action=LoadSearchKeywords&query=$1")
 	#echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,.link"
 	#echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,(.link | split(\"?\") | last)"
