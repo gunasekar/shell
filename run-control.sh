@@ -153,10 +153,15 @@ function get-open-ports {
 }
 
 function play_sound {
-    if hash aplay 2>/dev/null; then
-        aplay "$@"
+    if hash afplay 2>/dev/null; then
+        afplay "$(get-audio)"
     else
-        afplay "$@"
+        i=5
+        while [ $i -ge 0 ]; do
+            echo -ne '\007'
+            sleep 0.5
+            ((i--))
+        done
     fi
 }
 
@@ -170,16 +175,15 @@ function get-audio {
 }
 
 function notify-on-completion-fg {
-    pacdies=$(get-audio)
     if [[ $# -gt 0 ]]; then
         # Assume a PID has been passed
         while [[ $(ps -e | grep $1 | wc -l) != "0" ]]; do
             sleep 1
         done
 
-        play_sound $pacdies
+        play_sound
     else
-        play_sound $pacdies
+        play_sound
     fi
 }
 
@@ -193,9 +197,9 @@ function notify-after-fg {
         # Assume number of seconds has been passed
         sleep $1
 
-        play_sound $pacdies
+        play_sound
     else
-        play_sound $pacdies
+        play_sound
     fi
 }
 
