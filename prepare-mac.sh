@@ -20,6 +20,7 @@ function help {
     echo "14 - customise_ytdl"
     echo "-> Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
     echo "-> Other tools - TadViewer[http://tadviewer.com]"
+    echo "-> Youtube browser - pip3 install mps-youtube"
 }
 
 function prep_brew {
@@ -55,6 +56,7 @@ function prep_languages {
     brew install protobuf
     brew install node
     brew cask install java
+    brew install python
 }
 
 ##### development tools
