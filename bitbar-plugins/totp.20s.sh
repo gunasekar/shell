@@ -18,7 +18,7 @@ export LANG="${LANG:-en_US.UTF-8}"
 #         "Okta:2b2drladcdoxtpheuom6t4zjsr6tq7ix"
 #         "GrabTaxi:2b2drladcdoxtpheuom6t4zjsr6tq7ix" )
 # or source the above totp_secrets key-value pairs from a different file as in below
-source ~/sources/secrets/secrets
+source ~/.secrets
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
 # update the appropriate path of oathtool binary below
