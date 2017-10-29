@@ -1,3 +1,8 @@
+##### constants
+music_url="http://www.sunmusiq.com"
+audioDir="$HOME/Downloads/media/audio/"
+videoDir="$HOME/Downloads/media/video/"
+
 ##### general
 alias load-bash="source ~/.bashrc"
 alias load-zsh="source ~/.zshrc"
@@ -15,7 +20,7 @@ function enable-ubuntu-partners-repo {
 
 ##### oath-toolkit
 function totp {
-    if ! hash oath-toolkit 2>/dev/null; then
+    if ! hash oathtool 2>/dev/null; then
         echo "oath-toolkit not found. brewing..."
         brew install oath-toolkit
     fi
@@ -122,8 +127,8 @@ function dl-audio {
         brew install youtube-dl
     fi
 
-    mkdir -p "$HOME/Downloads/media/audio"
-    youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$HOME/Downloads/media/audio/%(title)s.%(ext)s" $@
+    mkdir -p $audioDir
+    youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$audioDir/%(title)s.%(ext)s" $@
 }
 
 function dl-video {
@@ -132,8 +137,8 @@ function dl-video {
         brew install youtube-dl
     fi
 
-    mkdir -p "$HOME/Downloads/media/video"
-    youtube-dl -o "$HOME/Downloads/media/video/%(title)s.%(ext)s" $@
+    mkdir -p $videoDir
+    youtube-dl -o "$videoDir/%(title)s.%(ext)s" $@
 }
 
 ##### custom
@@ -199,7 +204,6 @@ function notify-after {
 }
 
 ##### music related
-music_url="http://www.sunmusiq.com"
 function get-latest-songs {
     echo "Tamil"
     curl -s "$music_url/all-process.asp?action=LoadChannelsTamil" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
@@ -240,7 +244,8 @@ function download-320kbps-starmusiq {
         replace_quoted=$(printf '%s' "$replace" | sed 's/[#\]/\\\0/g')
         download_url=$(wget -qO- $music_url/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.info/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
         echo "Downloading..." $download_url
-        wget $download_url -O $id.zip
+        mkdir -p $audioDir
+        wget $download_url -O $audioDir/$id.zip
     done
 }
 
@@ -248,7 +253,7 @@ function download-and-unzip-320kbps-starmusiq {
     download-320kbps-starmusiq $@
     for id in $@
     do
-        unzip $id.zip
-        rm -f $id.zip
+        unzip $audioDir/$id.zip
+        rm -f $audioDir/$id.zip
     done
 }
