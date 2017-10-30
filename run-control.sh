@@ -208,17 +208,25 @@ function notify-after {
 }
 
 ##### music related
+function get-metadata {
+    ffprobe $@ 2>&1 | grep -A20 'Metadata:'
+}
+
+function process-page {
+    curl -s "$music_url/all-process.asp?action=$1" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1' | awk -F'?' '{ print $2 }' | awk -F'>' '{ print $1 }'
+}
+
 function get-latest-songs {
     echo "Tamil"
-    curl -s "$music_url/all-process.asp?action=LoadChannelsTamil" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+    process-page "LoadChannelsTamil"
     echo "\nTamilPop"
-    curl -s "$music_url/all-process.asp?action=LoadChannelsTamilPop" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+    process-page "LoadChannelsTamilPop"
     echo "\nMalayalam"
-    curl -s "$music_url/all-process.asp?action=LoadChannelsMalayalam" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+    process-page "LoadChannelsMalayalam"
     echo "\nTelugu"
-    curl -s "$music_url/all-process.asp?action=LoadChannelsTelugu" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+    process-page "LoadChannelsTelugu"
     echo "\nHindi"
-    curl -s "$music_url/all-process.asp?action=LoadChannelsHindi" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1'
+    process-page "LoadChannelsHindi"
 }
 
 function search-albums {
