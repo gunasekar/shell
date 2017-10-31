@@ -217,16 +217,12 @@ function process-page {
 }
 
 function get-latest-songs {
-    echo "Tamil"
-    process-page "LoadChannelsTamil"
-    echo "\nTamilPop"
-    process-page "LoadChannelsTamilPop"
-    echo "\nMalayalam"
-    process-page "LoadChannelsMalayalam"
-    echo "\nTelugu"
-    process-page "LoadChannelsTelugu"
-    echo "\nHindi"
-    process-page "LoadChannelsHindi"
+    array=( "LoadChannelsTamil" "LoadChannelsTamilPop" "LoadChannelsMalayalam" "LoadChannelsTelugu" "LoadChannelsHindi" )
+    for item in "${array[@]}" ; do
+        echo $item
+        process-page "$item"
+        echo '\n'
+    done
 }
 
 function search-albums {
