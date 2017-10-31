@@ -30,10 +30,10 @@ function prep_brew {
 
 ##### tools
 function prep_tools {
-    brew cask install google-chrome
     brew install wget
     brew install ranger
     brew install oath-toolkit
+    brew cask install google-chrome
     brew cask install filezilla
     brew cask install itsycal
     brew install jq
@@ -92,32 +92,26 @@ function prep_media_tools {
 ##### clone the required repos under ~/sources
 function prep_repo {
     mkdir ~/sources
-    cd ~/sources
-    git clone https://github.com/gunasekar/shell.git
-    git clone https://github.com/gunasekar/bitbar-plugins.git
+    git clone https://github.com/gunasekar/shell.git ~/sources/shell
+    git clone https://github.com/gunasekar/bitbar-plugins.git ~/sources/bitbar-plugins
 }
 
 ##### customize mpv
 function customize_mpv {
-    cd ~/.config/mpv/
-    ln -s ~/sources/shell/conf/mpv.conf mpv.conf
-    cd ~
+    ln -s ~/sources/shell/conf/mpv.conf ~/.config/mpv/mpv.conf
 }
 
 ##### customize youtube-dl
 function customize_ytdl {
     touch ~/.config/youtube-dl.conf
-    mkdir -p "$HOME/Downloads/media/video"
     echo "--output \"$HOME/Downloads/media/video/%(title)s.%(ext)s\"" >> ~/.config/youtube-dl.conf
 }
 
 ##### add bitbar-plugins
 function customize_bitbar {
     mkdir ~/.bitbar-plugins
-    cd ~/.bitbar-plugins
-    ln -s ~/sources/shell/bitbar-plugins/totp.20s.sh totp.20s.sh
-    ln -s ~/sources/bitbar-plugins/Music/cmus.10s.sh cmus.10s.sh
-    cd ~
+    ln -s ~/sources/shell/bitbar-plugins/totp.20s.sh ~/.bitbar-plugins/totp.20s.sh
+    ln -s ~/sources/shell/bitbar-plugins/cmus.10s.sh ~/.bitbar-plugins/cmus.10s.sh
 }
 
 ##### create soft-link for GOROOT
