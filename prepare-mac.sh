@@ -107,8 +107,8 @@ function customize_mpv {
 ##### customize youtube-dl
 function customize_ytdl {
     touch ~/.config/youtube-dl.conf
-    mkdir -p "$HOME/Downloads/Videos"
-    echo "--output \"$HOME/Downloads/Videos/%(title)s.%(ext)s\"" >> ~/.config/youtube-dl.conf
+    mkdir -p "$HOME/Downloads/media/video"
+    echo "--output \"$HOME/Downloads/media/video/%(title)s.%(ext)s\"" >> ~/.config/youtube-dl.conf
 }
 
 ##### add bitbar-plugins

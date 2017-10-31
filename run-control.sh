@@ -121,6 +121,18 @@ alias stream-fb-sd='mpv --ytdl-format=dash_sd_src $1'
 alias stream-fb-hd='mpv --ytdl-format=dash_hd_src $1'
 
 ##### youtube-dl
+function youtube-dl_video_and_audio_best_no_mkv_merge {
+  video_type=$(youtube-dl -F "$@" | grep "video only" | awk '{print $2}' | tail -n 1)
+  case $video_type in
+    mp4)
+      youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]' -o "$videoDir/%(title)s.%(ext)s" "$@";;
+    webm)
+      youtube-dl -f 'bestvideo[ext=webm]+bestaudio[ext=webm]' -o "$videoDir/%(title)s.%(ext)s" "$@";;
+    *)
+      echo "New best videoformat detected - $video_type, please check it out!";;
+  esac
+}
+
 function dl-audio {
     if ! hash youtube-dl 2>/dev/null; then
         echo "youtube-dl not found. brewing..."
@@ -138,7 +150,7 @@ function dl-video {
     fi
 
     mkdir -p $videoDir
-    youtube-dl -o "$videoDir/%(title)s.%(ext)s" $@
+    youtube-dl_video_and_audio_best_no_mkv_merge $@
 }
 
 ##### custom
