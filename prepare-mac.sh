@@ -113,6 +113,7 @@ function customize_bitbar {
     mkdir ~/.bitbar-plugins
     ln -s ~/sources/shell/bitbar-plugins/totp.20s.sh ~/.bitbar-plugins/totp.20s.sh
     ln -s ~/sources/shell/bitbar-plugins/cmus.10s.sh ~/.bitbar-plugins/cmus.10s.sh
+    ln -s ~/sources/shell/bitbar-plugins/play_url.1h.sh ~/.bitbar-plugins/play_url.1h.sh
 }
 
 ##### create soft-link for GOROOT
