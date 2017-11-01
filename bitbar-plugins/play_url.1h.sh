@@ -9,6 +9,7 @@
 # Hack for language not being set properly and unicode support
 export LANG="${LANG:-en_US.UTF-8}"
 
+# mpv and youtube-dl needs to be installed. Use 'brew install mpv' and 'brew install youtube-dl'
 if [[ "$1" == "play" ]]; then
     tmp=$(pbpaste)
     /usr/local/bin/mpv --ytdl-format="$2" $tmp
