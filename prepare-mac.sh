@@ -68,6 +68,7 @@ function prep_dev_tools {
     brew cask install macvim
     brew cask install postman
     brew install nmap
+    brew install textql
 }
 
 function prep_docker {
