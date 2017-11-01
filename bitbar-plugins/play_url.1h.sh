@@ -12,7 +12,11 @@ export LANG="${LANG:-en_US.UTF-8}"
 # mpv and youtube-dl needs to be installed. Use 'brew install mpv' and 'brew install youtube-dl'
 if [[ "$1" == "play" ]]; then
     tmp=$(pbpaste)
-    /usr/local/bin/mpv --ytdl-format="$2" $tmp
+    if [ -z "$2" ]; then
+        /usr/local/bin/mpv $tmp
+    else
+        /usr/local/bin/mpv --ytdl-format="$2" $tmp
+    fi
     exit
 fi
 
