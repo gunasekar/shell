@@ -16,8 +16,8 @@ function help {
     echo "10 - repo [gunasekar/shell, gunasekar/bitbar-plugins]"
     echo "11 - customize_go"
     echo "12 - customize_mpv"
-    echo "13 - customize_bitbar"
-    echo "14 - customise_ytdl"
+    echo "13 - customise_ytdl"
+    echo "14 - add_bitbar_plugins"
     echo "-> Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
     echo "-> Other tools - TadViewer[http://tadviewer.com]"
     echo "-> Youtube browser - pip3 install mps-youtube"
@@ -109,11 +109,14 @@ function customize_ytdl {
 }
 
 ##### add bitbar-plugins
-function customize_bitbar {
-    mkdir ~/.bitbar-plugins
-    ln -s ~/sources/shell/bitbar-plugins/totp.20s.sh ~/.bitbar-plugins/totp.20s.sh
-    ln -s ~/sources/shell/bitbar-plugins/cmus.10s.sh ~/.bitbar-plugins/cmus.10s.sh
-    ln -s ~/sources/shell/bitbar-plugins/play_url.1h.sh ~/.bitbar-plugins/play_url.1h.sh
+function add_bitbar_plugins {
+    mkdir -p $HOME/.bitbar-plugins
+    for plugin in "$HOME/sources/shell/bitbar-plugins/"*
+    do
+        fileName=$(basename $plugin)
+        echo $fileName
+        ln -s $plugin "$HOME/.bitbar-plugins/$fileName"
+    done
 }
 
 ##### create soft-link for GOROOT
@@ -145,7 +148,8 @@ do
             prep_repo
             customize_go
             customize_mpv
-            customize_bitbar
+            customize_ytdl
+            add_bitbar_plugins
             ;;
 
         1)
@@ -197,11 +201,11 @@ do
             ;;
 
         13)
-            customize_bitbar
+            customize_ytdl
             ;;
 
         14)
-            customize_ytdl
+            add_bitbar_plugins
             ;;
 
         *)

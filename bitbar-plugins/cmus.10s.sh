@@ -47,7 +47,7 @@ fi
 state=$(cmus-remote -C status | sed -n 1p | cut -d " " -f2)
 
 if [ "$state" = "" ]; then
-  echo "♫"
+  echo "🎶"
   echo "---"
   echo "cmus is not running"
   echo "Launch cmus in iTerm | bash='$0' param1=launch-iterm terminal=false refresh=true"
@@ -71,9 +71,9 @@ if [ "$1" = 'next' ]; then
 fi
 
 if [ "$state" = "playing" ]; then
-  state_icon="▶"
+  state_icon="🎧"
 else
-  state_icon="❚❚"
+  state_icon="🎶"
 fi
 
 track=$(cmus-remote -C "format_print %{title}")
