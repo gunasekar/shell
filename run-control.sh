@@ -273,7 +273,7 @@ function download-and-unzip-320kbps-starmusiq {
     download-320kbps-starmusiq $@
     for id in $@
     do
-        unzip $audioDir/$id.zip
+        unzip $audioDir/$id.zip -d $audioDir
         rm -f $audioDir/$id.zip
     done
 }
