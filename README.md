@@ -1,4 +1,4 @@
-# shell
+# shell [![Build Status](https://travis-ci.org/gunasekar/shell.svg?branch=master)](https://travis-ci.org/gunasekar/shell)
 
 run-control.sh is a script to set up your shell with productive environment settings
 
