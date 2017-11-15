@@ -1,0 +1,8 @@
+language: bash
+
+script:
+    - bash -n run-control.sh
+    - bash -n prepare-mac.sh
+    - bash -n bitbar-plugins/cmus.10s.sh
+    - bash -n bitbar-plugins/play-url.1h.sh
+    - bash -n bitbar-plugins/totp.20s.sh
