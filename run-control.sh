@@ -89,7 +89,7 @@ function start-mysql {
 }
 
 function start-redis {
-    brew services start mysql | 2>&1 > /dev/null
+    brew services start redis | 2>&1 > /dev/null
 }
 
 ##### Docker
