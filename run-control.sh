@@ -161,7 +161,8 @@ function dl-video {
     fi
 
     mkdir -p $videoDir
-    youtube-dl_video_and_audio_best_no_mkv_merge $@
+    youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]' -o "$videoDir/%(title)s.%(ext)s" "$@"
+    #youtube-dl_video_and_audio_best_no_mkv_merge $@
 }
 
 ##### custom
