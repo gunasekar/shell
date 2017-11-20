@@ -66,6 +66,17 @@ function generate-ssh-key {
     ssh-keygen -t rsa -b 4096 -C "$1"
 }
 
+function set-sudo-wo-pwd {
+    user=$(whoami)
+    if hash pbcopy 2>/dev/null; then
+        echo "$user    ALL=(ALL) NOPASSWD: ALL" | pbcoy
+    else
+        echo "$user    ALL=(ALL) NOPASSWD: ALL" | xclip -selection c
+    fi
+
+    sudo visudo
+}
+
 ##### aws
 export AWS_SDK_LOAD_CONFIG=1
 
