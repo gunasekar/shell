@@ -94,6 +94,11 @@ function go-build-linux {
     fi
 }
 
+function go-test-coverage {
+    go test -coverprofile=coverage.out
+    go tool cover -html=coverage.out
+}
+
 ##### mysql
 function start-mysql {
     brew services start mysql | 2>&1 > /dev/null
