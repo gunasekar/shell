@@ -156,7 +156,10 @@ function dl-audio {
     fi
 
     mkdir -p $audioDir
-    youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$audioDir/%(title)s.%(ext)s" $@
+    for id in $@
+    do
+        youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$audioDir/%(title)s.%(ext)s" $@
+    done
 }
 
 function dl-video {
@@ -166,8 +169,11 @@ function dl-video {
     fi
 
     mkdir -p $videoDir
-    youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]' -o "$videoDir/%(title)s.%(ext)s" "$@"
-    #youtube-dl_video_and_audio_best_no_mkv_merge $@
+    for id in $@
+    do
+        youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]' -o "$videoDir/%(title)s.%(ext)s" "$id"
+        #youtube-dl_video_and_audio_best_no_mkv_merge $@
+    done
 }
 
 ##### custom
