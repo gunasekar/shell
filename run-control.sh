@@ -7,7 +7,7 @@ videoDir="$HOME/Downloads/media/video/"
 alias load-bash="source ~/.bashrc"
 alias load-zsh="source ~/.zshrc"
 alias uts="date +%s"
-alias play="mpv -shuffle *"
+alias play="mpv -shuffle * &"
 
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
@@ -84,6 +84,10 @@ function show-aws-creds {
     cat ~/.aws/credentials
 }
 
+##### mysql
+function del-all-mysql-db {
+    mysql -uroot -p -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| awk '{print "drop database " $1 ";select sleep(0.1);"}' | mysql -uroot -p
+}
 
 ##### golang
 function go-build-linux {
