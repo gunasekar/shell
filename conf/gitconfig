@@ -1,0 +1,9 @@
+[diff]
+    tool = meld
+    guitool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+    tool = meld

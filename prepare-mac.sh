@@ -9,7 +9,7 @@ function help {
     echo "4 - shell [zsh]"
     echo "5 - languages [go, node, java]\n  --- For brew installed Go, have the following exports,\
         export GOROOT=/usr/local/opt/go/libexec"
-    echo "6 - development tools [atom, mqsql, dbeaver, mysqlworkbench, macvim, postman]"
+    echo "6 - development tools [atom, mqsql, dbeaver, mysqlworkbench, macvim, postman, meld]"
     echo "7 - virtualization tools [docker]"
     echo "8 - communication tools [slack, skype]"
     echo "9 - media tools [youtube-dl, mpv, cmus]"
@@ -69,6 +69,7 @@ function prep_dev_tools {
     brew cask install postman
     brew install nmap
     brew install textql
+    brew install caskroom/cask/meld
 }
 
 function prep_docker {

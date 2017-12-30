@@ -3,6 +3,15 @@ music_url="http://www.sunmusiq.com"
 audioDir="$HOME/Downloads/media/audio/"
 videoDir="$HOME/Downloads/media/video/"
 
+##### zshrc key bindings
+case $SHELL in
+    */zsh)
+    bindkey -e
+    bindkey '[C' forward-word
+    bindkey '[D' backward-word
+    ;;
+esac
+
 ##### general
 alias load-bash="source ~/.bashrc"
 alias load-zsh="source ~/.zshrc"
