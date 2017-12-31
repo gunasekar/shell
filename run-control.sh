@@ -17,6 +17,9 @@ alias load-bash="source ~/.bashrc"
 alias load-zsh="source ~/.zshrc"
 alias uts="date +%s"
 alias play="mpv -shuffle * &"
+alias ad="cd $audioDir"
+alias vd="cd $videoDir"
+alias vdr="cd $videoDir; ranger"
 
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
@@ -286,7 +289,7 @@ function search-albums {
     echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq "[.[] | { movie:.movie, link:(.link | split(\"?\") | last)}]" | jq ".[] | \"\(.movie) --> \(.link)\""
 }
 
-function download-320kbps-starmusiq {
+function dl-albums {
     if ! hash wget 2>/dev/null; then
         echo "wget not found. brewing..."
         brew install wget
@@ -302,13 +305,6 @@ function download-320kbps-starmusiq {
         echo "Downloading..." $download_url
         mkdir -p $audioDir
         wget $download_url -O $audioDir/$id.zip
-    done
-}
-
-function download-and-unzip-320kbps-starmusiq {
-    download-320kbps-starmusiq $@
-    for id in $@
-    do
         unzip $audioDir/$id.zip -d $audioDir
         rm -f $audioDir/$id.zip
     done
