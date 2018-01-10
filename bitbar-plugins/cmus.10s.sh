@@ -70,6 +70,11 @@ if [ "$1" = 'next' ]; then
   exit
 fi
 
+if [ "$1" = 'clear' ]; then
+  cmus-remote -c -l
+  exit
+fi
+
 if [ "$state" = "playing" ]; then
   state_icon="🎧"
 else
@@ -102,6 +107,8 @@ if [ "$state" = "playing" ]; then
   echo "Pause | bash='$0' param1=playpause terminal=false refresh=true"
   echo "Previous | bash='$0' param1=previous terminal=false refresh=true"
   echo "Next | bash='$0' param1=next terminal=false refresh=true"
+  echo "Clear | bash='$0' param1=clear terminal=false refresh=true"
 else
   echo "Play | bash='$0' param1=playpause terminal=false refresh=true"
+  echo "Clear | bash='$0' param1=clear terminal=false refresh=true"
 fi

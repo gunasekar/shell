@@ -46,6 +46,7 @@ Commands and aliases which helps increase your productivity,
 * `get-open-ports` show the open ports from all IPs in the local subnet
 * `docker-stop-all`, `docker-start-all`, `docker-rm-all-containers`, `docker-rm-all-images`, `docker-ips`  helps in handling docker objects
 * `enable-ubuntu-partners-repo` enables the ubuntu partners repo for apt package management
+* `shoutcast` lists all the stations based on the query value `play-shoutcast-station` plays the station id provided
 * `dl-audio`, `dl-video`,  downloads the audio/video in highest available quality in mp3 format using youtube-dl for the provided url
 * `play` plays the media files from the current directory using mplayer in a shuffled manner
 * `notify-after <seconds>` notifies you after given number of seconds and `notify-on-completion <pid>` notifies upon the completion of given PID

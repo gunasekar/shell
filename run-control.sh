@@ -1,5 +1,7 @@
 ##### constants
 music_url="http://www.sunmusiq.com"
+shoutcast_GetStreamUrl="https://www.shoutcast.com/Player/GetStreamUrl"
+shoutcast_Search="https://www.shoutcast.com/Search/UpdateSearch"
 audioDir="$HOME/Downloads/media/audio/"
 videoDir="$HOME/Downloads/media/video/"
 
@@ -13,13 +15,15 @@ case $SHELL in
 esac
 
 ##### general
-alias load-bash="source ~/.bashrc"
-alias load-zsh="source ~/.zshrc"
+alias load-bash="source $HOME/.bashrc"
+alias load-zsh="source $HOME/.zshrc"
+alias load-rc="source $HOME/sources/shell/run-control.sh"
 alias uts="date +%s"
 alias play="mpv -shuffle * &"
 alias ad="cd $audioDir"
 alias vd="cd $videoDir"
 alias vdr="cd $videoDir; ranger"
+alias shout-tamil="shoutcast tamil 15"
 
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
@@ -308,4 +312,76 @@ function dl-albums {
         unzip $audioDir/$id.zip -d $audioDir
         rm -f $audioDir/$id.zip
     done
+}
+
+function shoutcast {
+    if ! hash curl 2>/dev/null; then
+        echo "curl not found. brewing..."
+        brew install curl
+    fi
+
+    result=$(curl -s --request POST --url $shoutcast_Search --header 'content-type: multipart/form-data;' --form query=$1)
+    noOfStations=$(echo $result | jq ". | length")
+    if [ $# -eq 2 ]
+    then
+        noOfStations=$2
+        echo $result | jq ".[0:$2]" | jq ".[] | \"\(.Name) --> \(.ID) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
+    else
+
+        echo $result | jq ".[] | \"\(.Name) --> \(.ID) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
+    fi
+
+    echo "Select the option: "
+    read option
+    while [ $option -lt 0 -a $option -gt $noOfStations ]
+    do
+        echo "\nSelect your option between [ 0 and $noOfStations ]"
+        read option
+    done
+
+    stationID=$(echo $result | jq ".[$option] | \"\(.ID)\"" | sed -e 's/^"//' -e 's/"$//')
+    stationName=$(echo $result | jq ".[$option] | \"\(.Name)\"" | sed -e 's/^"//' -e 's/"$//')
+    echo "Want to play using mpv(1) or add it to cmus(2)?"
+    read option
+    while [ $option -lt 1 -a $option -gt 2 ]
+    do
+        echo '\033[31mInvalid Input \033[0m'
+        echo "\nSelect your option between [ 0 - mpv or 1 - cmus ]"
+        read option
+    done
+
+    if [ $option -eq 1 ]
+    then
+        echo "Playing station - $stationName"
+        play-shoutcast-station $stationID
+    else
+        echo "Adding station to cmus - $stationName"
+        add-shoutcast-station-2-cmus $stationID
+    fi
+}
+
+function play-shoutcast-station {
+    if ! hash curl 2>/dev/null; then
+        echo "curl not found. brewing..."
+        brew install curl
+    fi
+
+    result=$(curl -s --request POST --url $shoutcast_GetStreamUrl --header 'content-type: multipart/form-data;' --form station=$1)
+    # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
+    link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
+    mpv $link
+}
+
+
+function add-shoutcast-station-2-cmus {
+    if ! hash curl 2>/dev/null; then
+        echo "curl not found. brewing..."
+        brew install curl
+    fi
+
+    result=$(curl -s --request POST --url $shoutcast_GetStreamUrl --header 'content-type: multipart/form-data;' --form station=$1)
+    # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
+    link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
+    cmus-remote -l $link
+    cmus-remote -p
 }
