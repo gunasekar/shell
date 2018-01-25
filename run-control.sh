@@ -8,9 +8,22 @@ videoDir="$HOME/Downloads/media/video/"
 ##### zshrc key bindings
 case $SHELL in
     */zsh)
-    bindkey -e
-    bindkey '[C' forward-word
-    bindkey '[D' backward-word
+    unameOut="$(uname -s)"
+    case "${unameOut}" in
+        Linux*)
+        ;;
+        Darwin*)
+        bindkey -e
+        bindkey '[C' forward-word
+        bindkey '[D' backward-word
+        ;;
+        CYGWIN*)
+        ;;
+        MINGW*)
+        ;;
+        *)
+        echo "Unknown system";;
+    esac
     ;;
 esac
 
