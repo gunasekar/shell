@@ -280,19 +280,6 @@ function get-metadata {
     ffprobe $@ 2>&1 | grep -A20 'Metadata:'
 }
 
-function process-page {
-    curl -s "$music_url/all-process.asp?action=$1" | grep 'tamil_movie_songs_listen_download.asp?MovieId=' | grep 'title' | awk '{$1=$1};1' | awk -F'?' '{ print $2 }' | awk -F'>' '{ print $1 }'
-}
-
-function get-latest-songs {
-    array=( "LoadChannelsTamil" "LoadChannelsTamilPop" "LoadChannelsMalayalam" "LoadChannelsTelugu" "LoadChannelsHindi" )
-    for item in "${array[@]}" ; do
-        echo $item
-        process-page "$item"
-        echo '\n'
-    done
-}
-
 function search-albums {
     if ! hash jq 2>/dev/null; then
         echo "jq not found. brewing..."
@@ -335,41 +322,33 @@ function shoutcast {
 
     result=$(curl -s --request POST --url $shoutcast_Search --header 'content-type: multipart/form-data;' --form query=$1)
     noOfStations=$(echo $result | jq ". | length")
-    if [ $# -eq 2 ]
+    if [ $# -ge 2 ]
     then
         noOfStations=$2
-        echo $result | jq ".[0:$2]" | jq ".[] | \"\(.Name) --> \(.ID) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
+        echo $result | jq ".[0:$2]" | jq ".[] | \"\(.ID) --> \(.Name) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
     else
-
-        echo $result | jq ".[] | \"\(.Name) --> \(.ID) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
+        echo $result | jq ".[] | \"\(.ID) --> \(.Name) ... Bitrate: \(.Bitrate) ... Listeners: \(.Listeners)\""
     fi
 
-    echo "Select the option: "
-    read option
-    while [ $option -lt 0 -a $option -gt $noOfStations ]
+    while true ;
     do
-        echo "\nSelect your option between [ 0 and $noOfStations ]"
-        read option
+        printf "Select the stationID from the above stations: "
+        read -r stationID
+        if echo $result | grep -q "\"ID\":$stationID,"; then
+            break
+        else
+            echo -e "\e[1;31mInvalid stationID!\e[0m"
+        fi
     done
 
-    stationID=$(echo $result | jq ".[$option] | \"\(.ID)\"" | sed -e 's/^"//' -e 's/"$//')
-    stationName=$(echo $result | jq ".[$option] | \"\(.Name)\"" | sed -e 's/^"//' -e 's/"$//')
-    echo "Want to play using mpv(1) or add it to cmus(2)?"
-    read option
-    while [ $option -lt 1 -a $option -gt 2 ]
-    do
-        echo '\033[31mInvalid Input \033[0m'
-        echo "\nSelect your option between [ 0 - mpv or 1 - cmus ]"
-        read option
-    done
-
-    if [ $option -eq 1 ]
+    stationName=$(echo $result | jq ".[] | if .ID == $stationID then \"\(.Name)\" else null end" | sed '/null/d' | sed -e 's/^"//' -e 's/"$//')
+    if [[ $# -ge 3 ]] && [[ $3 == "cmus" ]]
     then
-        echo "Playing station - $stationName"
-        play-shoutcast-station $stationID
-    else
         echo "Adding station to cmus - $stationName"
         add-shoutcast-station-2-cmus $stationID
+    else
+        echo "Playing station - $stationName"
+        play-shoutcast-station $stationID
     fi
 }
 
