@@ -37,7 +37,10 @@ alias ad="cd $audioDir"
 alias vd="cd $videoDir"
 alias vdr="cd $videoDir; ranger"
 alias shout-tamil="shoutcast tamil 15"
-alias remove-unused-kernels="sudo apt-get purge $(dpkg -l linux-{image,headers}-"[0-9]*" | awk '/ii/{print $2}' | grep -ve "$(uname -r | sed -r 's/-[a-z]+//')")"
+
+if hash dpkg 2>/dev/null; then
+    alias remove-unused-kernels="sudo apt-get purge $(dpkg -l linux-{image,headers}-"[0-9]*" | awk '/ii/{print $2}' | grep -ve "$(uname -r | sed -r 's/-[a-z]+//')")"
+fi
 
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
