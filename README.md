@@ -55,8 +55,10 @@ Commands and aliases which helps increase your productivity,
 
 
 ## BitBar Plugins
-Plugin repository for BitBar https://getbitbar.com
+Plugin repository for BitBar https://getbitbar.com,
+
 * totp.20s.sh - Generates totp tokens every 20s. Allows to copy values to clipboard upon mouse click from BitBar Menu. Change the file name to customise the refresh rate.
+* play-url.1h.sh - Dropdown options to play the streaming link playable by youtube-dl from the clipboard. Also lists the youtube playlists from the given playlist map
 
 ## Mac Installations
 Download the script:

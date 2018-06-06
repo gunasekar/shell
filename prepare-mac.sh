@@ -52,7 +52,7 @@ function prep_shell {
 
 ##### languages
 function prep_languages {
-    brew install go
+    # brew install go
     brew install protobuf
     brew install node
     brew cask install java
@@ -70,6 +70,7 @@ function prep_dev_tools {
     brew install nmap
     brew install textql
     brew install caskroom/cask/meld
+    brew cask install macdown
 }
 
 function prep_docker {
