@@ -28,84 +28,88 @@ function prep_brew {
     brew tap caskroom/cask
 }
 
+function install_brew {
+    for i in $*; do
+        if ! brew list $i &>/dev/null; then
+            echo "Installing $i"
+            brew install $i
+        else
+            echo "$i already installed"
+        fi
+    done
+}
+
+function install_brew_cask {
+    for i in $*; do
+        if ! brew cask list $i &>/dev/null; then
+            echo "Installing $i"
+            brew cask install $i
+        else
+            echo "$i already installed"
+        fi
+    done
+}
+
 ##### tools
 function prep_tools {
-    brew install wget
-    brew install ranger
-    brew install oath-toolkit
-    brew cask install google-chrome
-    brew cask install filezilla
-    brew cask install itsycal
-    brew install jq
+    install_brew wget ranger oath-toolkit jq tor
+    install_brew_cask google-chrome filezilla itsycal
 }
 
 ##### terminals
 function prep_terminal {
-    brew cask install iterm2
+    install_brew_cask iterm2
 }
 
 ##### shell
 function prep_shell {
-    brew install zsh zsh-completions
+    install_brew zsh zsh-completions
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
 ##### languages
 function prep_languages {
-    # brew install go
-    brew install protobuf
-    brew install node
-    brew cask install java
-    brew install python
+    install_brew protobuf node python
+    install_brew_cask java
 }
 
 ##### development tools
 function prep_dev_tools {
-    brew cask install atom
-    brew install mysql
-    brew cask install dbeaver-community
-    brew cask install mysqlworkbench
-    brew cask install macvim
-    brew cask install postman
-    brew install nmap
-    brew install textql
-    brew install caskroom/cask/meld
-    brew cask install macdown
+    #install_brew mysql postgresql elasticsearch redis
+    install_brew nmap textql caskroom/cask/meld  gist
+    install_brew_cask atom dbeaver-community mysqlworkbench macvim postman macdown
 }
 
 function prep_docker {
-    brew cask install docker
-    brew install docker --a
-    brew install docker-compose
+    install_brew_cask docker
+    install_brew docker-compose
 }
 
 ##### communication
 function prep_communication {
-    brew cask install slack
-    brew cask install skype
+    install_brew_cask slack skype
 }
 
 ##### media
 function prep_media_tools {
-    brew install youtube-dl
-    brew install mpv
-    brew install cmus
+    install_brew youtube-dl mpv cmus
 }
 
 ##### clone the required repos under ~/sources
 function prep_repo {
-    mkdir ~/sources
-    git clone https://github.com/gunasekar/shell.git ~/sources/shell
-    git clone https://github.com/gunasekar/bitbar-plugins.git ~/sources/bitbar-plugins
+    git clone https://github.com/gunasekar/shell.git $HOME/sources/shell
+    git clone https://github.com/gunasekar/bitbar-plugins.git $HOME/sources/bitbar-plugins
 }
 
 ##### customize mpv
 function customize_mpv {
+    mkdir -p $HOME/.config/mpv
     ln -s ~/sources/shell/conf/mpv.conf ~/.config/mpv/mpv.conf
 }
 
 ##### customize youtube-dl
 function customize_ytdl {
+    mkdir -p $HOME/.config
     touch ~/.config/youtube-dl.conf
     echo "--output \"$HOME/Downloads/media/video/%(title)s.%(ext)s\"" >> ~/.config/youtube-dl.conf
 }
@@ -212,9 +216,9 @@ do
 
         *)
             echo '\033[31mInvalid Input \033[0m'
-            help
             ;;
     esac
+    help
     echo "\nSelect your action: "
     read action
 done
