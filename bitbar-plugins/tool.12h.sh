@@ -10,12 +10,12 @@
 export LANG="${LANG:-en_US.UTF-8}"
 
 # mpv and youtube-dl needs to be installed. Use 'brew install mpv' and 'brew install youtube-dl'
-if [[ "$1" == "getYoutubeVideoID" ]]; then
-    pbpaste | awk -F'=' '{ print $2 }' | pbcopy
+if [[ "$1" == "camelCase2snake_case" ]]; then
+    pbpaste | sed -r 's/([a-z0-9])([A-Z])/\1_\L\2/g' | pbcopy
     exit
 fi
 
 echo "🔨"
 echo '---'
-echo "Get Youtube Video ID | bash='$0' param1=getYoutubeVideoID terminal=false"
+echo "camelCase to snake_case | bash='$0' param1=camelCase2snake_case terminal=false"
 echo "---"

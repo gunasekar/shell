@@ -28,6 +28,9 @@ case $SHELL in
 esac
 
 ##### general
+mkdir -p $HOME/.binaries
+export PATH=$PATH:$HOME/.binaries
+
 alias load-bash="source $HOME/.bashrc"
 alias load-zsh="source $HOME/.zshrc"
 alias load-rc="source $HOME/sources/shell/run-control.sh"
@@ -45,6 +48,12 @@ fi
 function add-alias-to-zsh {
     echo "alias $1=\"cd $(pwd)\"" >> ~/.alias.sh
     echo "[alias $1=\"cd $(pwd)\"] is added to ~/.alias.sh"
+}
+
+function binplace {
+    mkdir -p $HOME/.binaries/
+    cp $1 $HOME/.binaries/
+    chmod 755 $HOME/.binaries/*
 }
 
 function enable-ubuntu-partners-repo {
@@ -134,6 +143,10 @@ function go-build-linux {
 function go-test-coverage {
     go test -coverprofile=coverage.out
     go tool cover -html=coverage.out
+}
+
+function go-test-all {
+    GOCACHE=off go test ./...
 }
 
 ##### mysql
