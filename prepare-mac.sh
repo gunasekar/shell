@@ -77,7 +77,7 @@ function prep_languages {
 function prep_dev_tools {
     #install_brew mysql postgresql elasticsearch redis
     install_brew nmap textql caskroom/cask/meld gist glide
-    install_brew_cask atom dbeaver-community mysqlworkbench macvim postman macdown
+    install_brew_cask atom dbeaver-community mysqlworkbench macvim postman macdown kdiff3 sourcetree
 }
 
 function prep_docker {
