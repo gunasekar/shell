@@ -9,10 +9,10 @@ function help {
     echo "4 - shell [zsh]"
     echo "5 - languages [go, node, java]\n  --- For brew installed Go, have the following exports,\
         export GOROOT=/usr/local/opt/go/libexec"
-    echo "6 - development tools [atom, mqsql, dbeaver, mysqlworkbench, macvim, postman, meld]"
+    echo "6 - development tools [atom, mqsql, dbeaver, mysqlworkbench, macvim, postman, meld, boostnote, kdiff3, sourcetree, sequel-pro]"
     echo "7 - virtualization tools [docker]"
     echo "8 - communication tools [slack, skype]"
-    echo "9 - media tools [youtube-dl, mpv, cmus]"
+    echo "9 - media tools [youtube-dl, mpv, cmus, gpmdp]"
     echo "10 - repo [gunasekar/shell, gunasekar/bitbar-plugins]"
     echo "11 - customize_go"
     echo "12 - customize_mpv"
@@ -77,7 +77,7 @@ function prep_languages {
 function prep_dev_tools {
     #install_brew mysql postgresql elasticsearch redis
     install_brew nmap textql caskroom/cask/meld gist glide
-    install_brew_cask atom dbeaver-community mysqlworkbench macvim postman macdown kdiff3 sourcetree
+    install_brew_cask atom dbeaver-community mysqlworkbench macvim postman macdown kdiff3 sourcetree boostnote sequel-pro
 }
 
 function prep_docker {
@@ -93,6 +93,7 @@ function prep_communication {
 ##### media
 function prep_media_tools {
     install_brew youtube-dl mpv cmus
+    install_brew_cask marshallofsound-google-play-music-player
 }
 
 ##### clone the required repos under ~/sources
