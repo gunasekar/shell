@@ -95,16 +95,16 @@ function prep_media_tools {
     install_brew_cask marshallofsound-google-play-music-player
 }
 
-##### clone the required repos under ~/sources
+##### clone the required repos under $HOME/setup
 function prep_repo {
-    git clone https://github.com/gunasekar/shell.git $HOME/sources/shell
-    git clone https://github.com/gunasekar/bitbar-plugins.git $HOME/sources/bitbar-plugins
+    git clone https://github.com/gunasekar/shell.git $HOME/setup/shell
+    git clone https://github.com/gunasekar/bitbar-plugins.git $HOME/setup/bitbar-plugins
 }
 
 ##### customize mpv
 function customize_mpv {
     mkdir -p $HOME/.config/mpv
-    ln -s ~/sources/shell/conf/mpv.conf ~/.config/mpv/mpv.conf
+    ln -sf ~/setup/shell/conf/mpv.conf ~/.config/mpv/mpv.conf
 }
 
 ##### customize youtube-dl
@@ -117,11 +117,11 @@ function customize_ytdl {
 ##### add bitbar-plugins
 function add_bitbar_plugins {
     mkdir -p $HOME/.bitbar-plugins
-    for plugin in "$HOME/sources/shell/bitbar-plugins/"*
+    for plugin in "$HOME/setup/shell/bitbar-plugins/"*
     do
         fileName=$(basename $plugin)
         echo $fileName
-        ln -s $plugin "$HOME/.bitbar-plugins/$fileName"
+        ln -sf $plugin "$HOME/.bitbar-plugins/$fileName"
     done
 }
 

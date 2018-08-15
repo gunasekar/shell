@@ -33,7 +33,7 @@ export PATH=$PATH:$HOME/.binaries
 
 alias load-bash="source $HOME/.bashrc"
 alias load-zsh="source $HOME/.zshrc"
-alias load-rc="source $HOME/sources/shell/run-control.sh"
+alias load-rc="source $HOME/setup/shell/run-control.sh"
 alias uts="date +%s"
 alias play="mpv -shuffle * &"
 alias ad="cd $audioDir"
