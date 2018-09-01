@@ -1,9 +1,9 @@
 ##### constants
-music_url="http://www.sunmusiq.com"
+music_url="http://www.starmusiq.one"
 shoutcast_GetStreamUrl="https://www.shoutcast.com/Player/GetStreamUrl"
 shoutcast_Search="https://www.shoutcast.com/Search/UpdateSearch"
-audioDir="$HOME/Downloads/media/audio/"
-videoDir="$HOME/Downloads/media/video/"
+audioDir="$HOME/Downloads/media/audio"
+videoDir="$HOME/Downloads/media/video"
 
 ##### zshrc key bindings
 case $SHELL in
@@ -58,6 +58,10 @@ function binplace {
 
 function enable-ubuntu-partners-repo {
     sudo sed -i.bak "/^# deb .*partner/ s/^# //" /etc/apt/sources.list
+}
+
+function whoisusing {
+    lsof -i tcp:$1
 }
 
 ##### oath-toolkit
@@ -303,7 +307,7 @@ function search-albums {
         brew install jq
     fi
 
-    result=$(curl -s "$music_url/all-process.asp?action=LoadSearchKeywords&query=$1")
+    result=$(curl -s "$music_url/all-process.asp?action=LoadSearchKeywords&dataType=json&query=$1")
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,.link"
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,(.link | split(\"?\") | last)"
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq "[.[] | { movie:.movie, link:(.link | split(\"?\") | last)}]"
