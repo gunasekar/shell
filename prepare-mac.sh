@@ -75,8 +75,8 @@ function prep_languages {
 
 ##### development tools
 function prep_dev_tools {
-    install_brew nmap textql caskroom/cask/meld gist glide mycli pgcli
-    install_brew_cask atom dbeaver-community macvim postman macdown kdiff3 sourcetree boostnote sequel-pro
+    install_brew nmap textql caskroom/cask/meld gist glide mycli pgcli tig htop watch tree
+    install_brew_cask atom dbeaver-community macvim postman macdown kdiff3 sourcetree boostnote sequel-pro mysqlworkbench
 }
 
 function prep_docker {
