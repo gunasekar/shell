@@ -75,7 +75,7 @@ function prep_languages {
 
 ##### development tools
 function prep_dev_tools {
-    install_brew neovim nmap textql caskroom/cask/meld gist glide mycli pgcli tig htop watch tree graphviz
+    install_brew neovim nmap textql caskroom/cask/meld gist glide mycli pgcli tig htop watch tree graphviz kubectl bitwarden-cli
     install_brew_cask atom sublime-text dbeaver-community macvim postman macdown fork kdiff3 boostnote sequel-pro mysqlworkbench
 }
 

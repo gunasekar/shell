@@ -40,6 +40,7 @@ alias ad="cd $audioDir"
 alias vd="cd $videoDir"
 alias vdr="cd $videoDir; ranger"
 alias shout-tamil="shoutcast tamil 15"
+alias bw-search="bw list items --search $1"
 
 if hash dpkg 2>/dev/null; then
     alias remove-unused-kernels="sudo apt-get purge $(dpkg -l linux-{image,headers}-"[0-9]*" | awk '/ii/{print $2}' | grep -ve "$(uname -r | sed -r 's/-[a-z]+//')")"
