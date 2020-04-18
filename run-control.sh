@@ -1,7 +1,4 @@
 ##### constants
-music_url="http://www.starmusiq.fun"
-shoutcast_GetStreamUrl="https://www.shoutcast.com/Player/GetStreamUrl"
-shoutcast_Search="https://www.shoutcast.com/Search/UpdateSearch"
 audioDir="$HOME/Downloads/media/audio"
 videoDir="$HOME/Downloads/media/video"
 
@@ -116,7 +113,7 @@ function generate-ssh-key {
 function set-sudo-wo-pwd {
     user=$(whoami)
     if hash pbcopy 2>/dev/null; then
-        echo "$user    ALL=(ALL) NOPASSWD: ALL" | pbcoy
+        echo "$user    ALL=(ALL) NOPASSWD: ALL" | pbcopy
     else
         echo "$user    ALL=(ALL) NOPASSWD: ALL" | xclip -selection c
     fi
@@ -154,15 +151,6 @@ function go-test-all {
     GOCACHE=off go test ./...
 }
 
-##### mysql
-function start-mysql {
-    brew services start mysql | 2>&1 > /dev/null
-}
-
-function start-redis {
-    brew services start redis | 2>&1 > /dev/null
-}
-
 ##### Docker
 function docker-stop-all {
     docker stop $(docker ps -aq)
@@ -185,6 +173,7 @@ function docker-ips {
 }
 
 ##### mpv
+alias stream-yt-1080='mpv --ytdl-format=137 $1'
 alias stream-yt-720='mpv --ytdl-format=22 $1'
 alias stream-yt-360='mpv --ytdl-format=18 $1'
 alias stream-hs-360='mpv --ytdl-format=hls-861 $1'
@@ -213,7 +202,7 @@ function dl-audio {
     mkdir -p $audioDir
     for id in $@
     do
-        youtube-dl -x --audio-format mp3 --audio-quality 0 -o "$audioDir/%(title)s.%(ext)s" $@
+        youtube-dl -x --audio-format mp3 -o "$audioDir/%(title)s.%(ext)s" $@
     done
 }
 
@@ -308,7 +297,7 @@ function search-albums {
         brew install jq
     fi
 
-    result=$(curl -s "$music_url/all-process.asp?action=LoadSearchKeywords&dataType=json&query=$1")
+    result=$(curl -s "http://www.starmusiq.top/all-process.asp?action=LoadSearchKeywords&dataType=json&query=$1")
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,.link"
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,(.link | split(\"?\") | last)"
     #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq "[.[] | { movie:.movie, link:(.link | split(\"?\") | last)}]"
@@ -325,9 +314,9 @@ function dl-albums {
     do
         find="download-7s-zip-new/"
         find_quoted=$(printf '%s' "$find" | sed 's/[#\]/\\\0/g')
-        replace="download-7s-zip-new/download-3.ashx"
+        replace="download-7s-zip-new/download-4.ashx"
         replace_quoted=$(printf '%s' "$replace" | sed 's/[#\]/\\\0/g')
-        download_url=$(wget -qO- $music_url/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.fun/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
+        download_url=$(wget -qO- http://www.starmusiq.top/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.pw/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
         echo "Downloading..." $download_url
         mkdir -p $audioDir
         wget $download_url -O $audioDir/$id.zip
@@ -341,9 +330,10 @@ function shoutcast {
         echo "curl not found. brewing..."
         brew install curl
     fi
-
-    result=$(curl -s --request POST --url $shoutcast_Search --header 'content-type: multipart/form-data;' --form query=$1)
+    
+    result=$(curl 'http://directory.shoutcast.com/Search/UpdateSearch' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'query='$1'')
     noOfStations=$(echo $result | jq ". | length")
+    echo "$noOfStations found"
     if [ $# -ge 2 ]
     then
         noOfStations=$2
@@ -364,14 +354,8 @@ function shoutcast {
     done
 
     stationName=$(echo $result | jq ".[] | if .ID == $stationID then \"\(.Name)\" else null end" | sed '/null/d' | sed -e 's/^"//' -e 's/"$//')
-    if [[ $# -ge 3 ]] && [[ $3 == "cmus" ]]
-    then
-        echo "Adding station to cmus - $stationName"
-        add-shoutcast-station-2-cmus $stationID
-    else
-        echo "Playing station - $stationName"
-        play-shoutcast-station $stationID
-    fi
+    echo "Playing station - $stationName"
+    play-shoutcast-station $stationID
 }
 
 function play-shoutcast-station {
@@ -380,22 +364,8 @@ function play-shoutcast-station {
         brew install curl
     fi
 
-    result=$(curl -s --request POST --url $shoutcast_GetStreamUrl --header 'content-type: multipart/form-data;' --form station=$1)
+    result=$(curl 'http://directory.shoutcast.com/Player/GetStreamUrl' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'station='$1'')
     # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
     link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
     mpv $link
-}
-
-
-function add-shoutcast-station-2-cmus {
-    if ! hash curl 2>/dev/null; then
-        echo "curl not found. brewing..."
-        brew install curl
-    fi
-
-    result=$(curl -s --request POST --url $shoutcast_GetStreamUrl --header 'content-type: multipart/form-data;' --form station=$1)
-    # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
-    link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
-    cmus-remote -l $link
-    cmus-remote -p
 }

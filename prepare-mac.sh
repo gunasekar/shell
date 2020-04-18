@@ -4,28 +4,24 @@ function help {
     echo "c - complete installation"
     echo "q - quit\n"
     echo "1 - homebrew"
-    echo "2 - tools [chrome, wget, ranger, oath-toolkit]"
+    echo "2 - tools [chrome, wget, ranger, oath-toolkit, jq, tor, bitbar, filezilla, itsycal]"
     echo "3 - terminal [iterm2]"
     echo "4 - shell [zsh]"
-    echo "5 - languages [go, node, java]\n  --- For brew installed Go, have the following exports,\
-        export GOROOT=/usr/local/opt/go/libexec"
-    echo "6 - development tools [atom, cli, dbeaver, macvim, postman, meld, boostnote, kdiff3, sourcetree, sequel-pro]"
+    echo "5 - languages [go, node, java]"
+    echo "6 - development tools [atom, sublime, vscode, cli, dbeaver, macvim, postman, fork, boostnote, sourcetree, neovim, nmap, gist, textql, etc.,]"
     echo "7 - virtualization tools [docker]"
     echo "8 - communication tools [slack, skype]"
     echo "9 - media tools [youtube-dl, mpv, cmus, gpmdp]"
     echo "10 - repo [gunasekar/shell, gunasekar/bitbar-plugins]"
-    echo "11 - customize_go"
-    echo "12 - customize_mpv"
-    echo "13 - customise_ytdl"
-    echo "14 - add_bitbar_plugins"
-    echo "-> Mac AppStore Applications - RDP Client, Monosnap, CopyClip"
-    echo "-> Other tools - TadViewer[http://tadviewer.com]"
-    echo "-> Youtube browser - pip3 install mps-youtube"
+    echo "11 - customize_mpv"
+    echo "12 - customise_ytdl"
+    echo "13 - add_bitbar_plugins"
+    echo "-> Mac AppStore Applications - Monosnap, CopyClip"
 }
 
 function prep_brew {
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew tap caskroom/cask
+    brew tap homebrew/cask
 }
 
 function install_brew {
@@ -53,7 +49,7 @@ function install_brew_cask {
 ##### tools
 function prep_tools {
     install_brew wget ranger oath-toolkit jq tor
-    install_brew_cask google-chrome filezilla itsycal
+    install_brew_cask google-chrome filezilla itsycal bitbar
 }
 
 ##### terminals
@@ -69,14 +65,14 @@ function prep_shell {
 
 ##### languages
 function prep_languages {
-    install_brew protobuf node python
+    install_brew go protobuf node python
     install_brew_cask java
 }
 
 ##### development tools
 function prep_dev_tools {
-    install_brew neovim nmap textql caskroom/cask/meld gist glide mycli pgcli tig htop watch tree graphviz kubectl bitwarden-cli
-    install_brew_cask atom sublime-text dbeaver-community macvim postman macdown fork boostnote
+    install_brew neovim nmap textql gist mycli pgcli tig htop watch tree graphviz kubectl bitwarden-cli fzf
+    install_brew_cask atom sublime-text dbeaver-community macvim postman macdown fork boostnote visual-studio-code
 }
 
 function prep_docker {
@@ -91,8 +87,7 @@ function prep_communication {
 
 ##### media
 function prep_media_tools {
-    install_brew youtube-dl mpv cmus
-    install_brew_cask marshallofsound-google-play-music-player
+    install_brew youtube-dl mpv
 }
 
 ##### clone the required repos under $HOME/setup
@@ -123,12 +118,6 @@ function add_bitbar_plugins {
         echo $fileName
         ln -sf $plugin "$HOME/.bitbar-plugins/$fileName"
     done
-}
-
-##### create soft-link for GOROOT
-function customize_go {
-    cd /usr/local/go
-    ln -s /usr/local/Cellar/go/1.9.1/go
 }
 
 help
@@ -199,18 +188,14 @@ do
             ;;
 
         11)
-            customize_go
-            ;;
-
-        12)
             customize_mpv
             ;;
 
-        13)
+        12)
             customize_ytdl
             ;;
 
-        14)
+        13)
             add_bitbar_plugins
             ;;
 
