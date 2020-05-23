@@ -44,7 +44,7 @@ if [[ "$1" == "copy" ]]; then
   exit
 fi
 
-echo "⏳"
+echo "🔓"
 echo '---'
 echo "Clear Clipboard | bash='$0' param1=copy param2=' ' terminal=false"
 echo "---"
