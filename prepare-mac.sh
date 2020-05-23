@@ -21,7 +21,6 @@ function help {
 
 function prep_brew {
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew tap homebrew/cask
 }
 
 function install_brew {
@@ -48,7 +47,7 @@ function install_brew_cask {
 
 ##### tools
 function prep_tools {
-    install_brew wget ranger oath-toolkit jq tor
+    install_brew wget ranger oath-toolkit jq
     install_brew_cask google-chrome filezilla itsycal bitbar
 }
 
@@ -66,13 +65,12 @@ function prep_shell {
 ##### languages
 function prep_languages {
     install_brew go protobuf node python
-    install_brew_cask java
 }
 
 ##### development tools
 function prep_dev_tools {
     install_brew neovim nmap textql gist mycli pgcli tig htop watch tree graphviz kubectl bitwarden-cli fzf
-    install_brew_cask atom sublime-text dbeaver-community macvim postman macdown fork boostnote visual-studio-code
+    install_brew_cask atom sublime-text dbeaver-community postman fork boostnote visual-studio-code
 }
 
 function prep_docker {
@@ -93,7 +91,6 @@ function prep_media_tools {
 ##### clone the required repos under $HOME/setup
 function prep_repo {
     git clone https://github.com/gunasekar/shell.git $HOME/setup/shell
-    git clone https://github.com/gunasekar/bitbar-plugins.git $HOME/setup/bitbar-plugins
 }
 
 ##### customize mpv
@@ -141,7 +138,6 @@ do
             prep_communication
             prep_media_tools
             prep_repo
-            customize_go
             customize_mpv
             customize_ytdl
             add_bitbar_plugins
