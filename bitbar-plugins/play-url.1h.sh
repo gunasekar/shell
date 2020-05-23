@@ -37,7 +37,6 @@ function playStream {
         echo $2 | $mpvCommand --ytdl-format='$1'
     fi
     
-    which bash > /Users/guna/setup/shell/test.sh
     eval $command &
     exit
 }
