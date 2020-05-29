@@ -4,15 +4,15 @@ function help {
     echo "c - complete installation"
     echo "q - quit\n"
     echo "1 - homebrew"
-    echo "2 - tools [chrome, wget, ranger, oath-toolkit, jq, tor, bitbar, filezilla, itsycal]"
-    echo "3 - terminal [iterm2]"
-    echo "4 - shell [zsh]"
-    echo "5 - languages [go, node, java]"
-    echo "6 - development tools [atom, sublime, vscode, cli, dbeaver, macvim, postman, fork, boostnote, sourcetree, neovim, nmap, gist, textql, etc.,]"
-    echo "7 - virtualization tools [docker]"
-    echo "8 - communication tools [slack, skype]"
-    echo "9 - media tools [youtube-dl, mpv, cmus, gpmdp]"
-    echo "10 - repo [gunasekar/shell, gunasekar/bitbar-plugins]"
+    echo "2 - tools"
+    echo "3 - terminal"
+    echo "4 - shell"
+    echo "5 - languages"
+    echo "6 - development tools"
+    echo "7 - virtualization tools"
+    echo "8 - communication tools"
+    echo "9 - media tools"
+    echo "10 - repo [gunasekar/shell]"
     echo "11 - customize_mpv"
     echo "12 - customise_ytdl"
     echo "13 - add_bitbar_plugins"
@@ -69,12 +69,24 @@ function prep_languages {
 
 ##### development tools
 function prep_dev_tools {
-    install_brew neovim nmap textql gist mycli pgcli tig htop watch tree graphviz kubectl bitwarden-cli fzf
-    install_brew_cask atom sublime-text dbeaver-community postman fork boostnote visual-studio-code
+    # CLIs
+    install_brew mycli pgcli bitwarden-cli awscli aws-okta
+    
+    # P Tools
+    install_brew wget oath-toolkit jq nmap textql gist tig graphviz fzf
+    
+    # Shell tools
+    install_brew htop ranger watch tree
+
+    # CASK - Editors
+    install_brew_cask atom sublime-text  visual-studio-code
+    
+    # CASK - UI tools
+    install_brew_cask dbeaver-community postman fork boostnote
 }
 
 function prep_docker {
-    install_brew docker-compose
+    install_brew docker-compose kubectl
     install_brew_cask docker
 }
 

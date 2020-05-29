@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ##### constants
 audioDir="$HOME/Downloads/media/audio"
 videoDir="$HOME/Downloads/media/video"
@@ -368,4 +370,15 @@ function play-shoutcast-station {
     # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
     link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
     mpv $link
+}
+
+function merge-lines {
+    if [[ $# != 2 ]]
+    then
+        echo "usage: merge-lines <file_path> <lines_to_merge>\nexample:\nmerge-lines payload.csv 5"
+    else
+        param='{line=line "," $0} NR%'$2'==0{print substr(line,2); line=""}'
+        awk $param $1 > $1_merged_$2_lines.csv
+        [ $? -eq 0 ] && echo "merged to $1_merged_$2_lines.csv" || echo "merge failed" >&2
+    fi
 }
