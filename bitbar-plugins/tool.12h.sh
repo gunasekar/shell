@@ -24,6 +24,16 @@ urldecode() {
     printf '%b' "${url_encoded//%/\\x}"
 }
 
+if [[ "$1" == "to.upper" ]]; then
+    input=$(pbpaste)
+    echo $input | tr '[:lower:]' '[:upper:]' | pbcopy
+fi
+
+if [[ "$1" == "to.lower" ]]; then
+    input=$(pbpaste)
+    echo $input | tr '[:upper:]' '[:lower:]' | pbcopy
+fi
+
 if [[ "$1" == "base64.encode" ]]; then
     input=$(pbpaste)
     echo $input | base64 | pbcopy
@@ -57,13 +67,49 @@ if [[ "$1" == "json2csv" ]]; then
     echo $input | /usr/local/bin/jq --raw-output '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | pbcopy
 fi
 
+if [[ "$1" == "unix.epoch.s" ]]; then
+    date +%s | pbcopy
+fi
+
+if [[ "$1" == "utc.iso8601" ]]; then
+    date -u +%FT%TZ | pbcopy
+fi
+
+if [[ "$1" == "local.iso8601" ]]; then
+    date +%FT%TZ | pbcopy
+fi
+
+if [[ "$1" == "utc.YYYY-MM-DD hh:mm:ss" ]]; then
+    date -u +"%Y-%m-%d %H:%M:%S" | pbcopy
+fi
+
+if [[ "$1" == "local.YYYY-MM-DD hh:mm:ss" ]]; then
+    date +"%Y-%m-%d %H:%M:%S" | pbcopy
+fi
+
+if [[ "$1" == "utc.YYYY-MM-DD" ]]; then
+    date -u +"%Y-%m-%d" | pbcopy
+fi
+
+if [[ "$1" == "local.YYYY-MM-DD" ]]; then
+    date +"%Y-%m-%d" | pbcopy
+fi
 
 echo "🔨"
 echo '---'
+echo "to.upper | bash='$0' param1=to.upper terminal=false"
+echo "to.lower | bash='$0' param1=to.lower terminal=false"
 echo "base64.encode | bash='$0' param1=base64.encode terminal=false"
 echo "base64.decode | bash='$0' param1=base64.decode terminal=false"
 echo "urlencode | bash='$0' param1=urlencode terminal=false"
 echo "urldecode | bash='$0' param1=urldecode terminal=false"
 echo "jbeautify | bash='$0' param1=jbeautify terminal=false"
 echo "json2csv | bash='$0' param1=json2csv terminal=false"
+echo "unix.epoch.s | bash='$0' param1=unix.epoch.s terminal=false"
+echo "utc.iso8601 | bash='$0' param1=utc.iso8601 terminal=false"
+echo "local.iso8601 | bash='$0' param1=local.iso8601 terminal=false"
+echo "utc.YYYY-MM-DD hh:mm:ss | bash='$0' param1='utc.YYYY-MM-DD hh:mm:ss' terminal=false"
+echo "local.YYYY-MM-DD hh:mm:ss | bash='$0' param1='local.YYYY-MM-DD hh:mm:ss' terminal=false"
+echo "utc.YYYY-MM-DD | bash='$0' param1=utc.YYYY-MM-DD terminal=false"
+echo "local.YYYY-MM-DD | bash='$0' param1=local.YYYY-MM-DD terminal=false"
 echo "---"
