@@ -16,6 +16,7 @@ function help {
     echo "11 - customize_mpv"
     echo "12 - customise_ytdl"
     echo "13 - add_bitbar_plugins"
+    echo "14 - add_vim_color_schemes"
     echo "-> Mac AppStore Applications - Monosnap, CopyClip"
 }
 
@@ -129,6 +130,17 @@ function add_bitbar_plugins {
     done
 }
 
+##### add vim color schemes
+function setup_vim {
+    mkdir -p $HOME/.vim/colors
+    for colorscheme in "$HOME/setup/shell/vim/colors/"*
+    do
+        fileName=$(basename $colorscheme)
+        echo $fileName
+        ln -sf $colorscheme "$HOME/.vim/colors/$fileName"
+    done
+}
+
 help
 echo "\nSelect your action: "
 read action
@@ -205,6 +217,10 @@ do
 
         13)
             add_bitbar_plugins
+            ;;
+
+        14)
+            add_vim_color_schemes
             ;;
 
         *)

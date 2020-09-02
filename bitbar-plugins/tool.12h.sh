@@ -24,34 +24,42 @@ urldecode() {
     printf '%b' "${url_encoded//%/\\x}"
 }
 
+if [[ "$1" == "uuid.upper" ]]; then
+    printf $(uuidgen) | tr '[:lower:]' '[:upper:]' | pbcopy
+fi
+
+if [[ "$1" == "uuid.lower" ]]; then
+    printf $(uuidgen) | tr '[:upper:]' '[:lower:]' | pbcopy
+fi
+
 if [[ "$1" == "to.upper" ]]; then
     input=$(pbpaste)
-    echo $input | tr '[:lower:]' '[:upper:]' | pbcopy
+    printf $input | tr '[:lower:]' '[:upper:]' | pbcopy
 fi
 
 if [[ "$1" == "to.lower" ]]; then
     input=$(pbpaste)
-    echo $input | tr '[:upper:]' '[:lower:]' | pbcopy
+    printf $input | tr '[:upper:]' '[:lower:]' | pbcopy
 fi
 
 if [[ "$1" == "base64.encode" ]]; then
     input=$(pbpaste)
-    echo $input | base64 | pbcopy
+    printf $(printf $input | base64) | pbcopy
 fi
 
 if [[ "$1" == "base64.decode" ]]; then
     input=$(pbpaste)
-    echo `echo $input | base64 --decode` | pbcopy
+    printf `printf $input | base64 --decode` | pbcopy
 fi
 
 if [[ "$1" == "urlencode" ]]; then
     input=$(pbpaste)
-    urlencode $input | pbcopy
+    echo -n $(urlencode $input) | pbcopy
 fi
 
 if [[ "$1" == "urldecode" ]]; then
     input=$(pbpaste)
-    urldecode $input | pbcopy
+    echo -n $(urldecode $input) | pbcopy
 fi
 
 if [[ "$1" == "jbeautify" ]]; then
@@ -68,35 +76,45 @@ if [[ "$1" == "json2csv" ]]; then
 fi
 
 if [[ "$1" == "unix.epoch.s" ]]; then
-    date +%s | pbcopy
+    echo -n $(date +%s) | pbcopy
 fi
 
 if [[ "$1" == "utc.iso8601" ]]; then
-    date -u +%FT%TZ | pbcopy
+    echo -n $(date -u +%FT%TZ) | pbcopy
 fi
 
 if [[ "$1" == "local.iso8601" ]]; then
-    date +%FT%TZ | pbcopy
+    echo -n $(date +%FT%TZ) | pbcopy
 fi
 
 if [[ "$1" == "utc.YYYY-MM-DD hh:mm:ss" ]]; then
-    date -u +"%Y-%m-%d %H:%M:%S" | pbcopy
+    echo -n $(date -u +"%Y-%m-%d %H:%M:%S") | pbcopy
 fi
 
 if [[ "$1" == "local.YYYY-MM-DD hh:mm:ss" ]]; then
-    date +"%Y-%m-%d %H:%M:%S" | pbcopy
+    echo -n $(date +"%Y-%m-%d %H:%M:%S") | pbcopy
 fi
 
 if [[ "$1" == "utc.YYYY-MM-DD" ]]; then
-    date -u +"%Y-%m-%d" | pbcopy
+    echo -n $(date -u +"%Y-%m-%d") | pbcopy
 fi
 
 if [[ "$1" == "local.YYYY-MM-DD" ]]; then
-    date +"%Y-%m-%d" | pbcopy
+    echo -n $(date +"%Y-%m-%d") | pbcopy
+fi
+
+if [[ "$1" == "cred.user.stg" ]]; then
+    echo -n '8c7733a2-82fb-42fd-ad12-9df93a216ffd' | pbcopy
+fi
+
+if [[ "$1" == "cred.user.prod" ]]; then
+    echo -n '6743c3c0-b5a1-46d2-9efa-06ab2d2e9e26' | pbcopy
 fi
 
 echo "🔨"
 echo '---'
+echo "uuid.upper | bash='$0' param1=uuid.upper terminal=false"
+echo "uuid.lower | bash='$0' param1=uuid.lower terminal=false"
 echo "to.upper | bash='$0' param1=to.upper terminal=false"
 echo "to.lower | bash='$0' param1=to.lower terminal=false"
 echo "base64.encode | bash='$0' param1=base64.encode terminal=false"
@@ -112,4 +130,6 @@ echo "utc.YYYY-MM-DD hh:mm:ss | bash='$0' param1='utc.YYYY-MM-DD hh:mm:ss' termi
 echo "local.YYYY-MM-DD hh:mm:ss | bash='$0' param1='local.YYYY-MM-DD hh:mm:ss' terminal=false"
 echo "utc.YYYY-MM-DD | bash='$0' param1=utc.YYYY-MM-DD terminal=false"
 echo "local.YYYY-MM-DD | bash='$0' param1=local.YYYY-MM-DD terminal=false"
+echo "cred.user.stg | bash='$0' param1=cred.user.stg terminal=false"
+echo "cred.user.prod | bash='$0' param1=cred.user.prod terminal=false"
 echo "---"
