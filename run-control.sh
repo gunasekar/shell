@@ -383,6 +383,14 @@ function merge-lines {
     fi
 }
 
+function get-added-lines {
+    diff -u $1 $2 | tail -n +3 | sed -n "s/^+\(.*\)/\1/p"
+}
+
+function get-removed-lines {
+    diff -u $1 $2 | tail -n +3 | sed -n "s/^-\(.*\)/\1/p"
+}
+
 function setup_vim_awesome {
     if [ ! -d "$HOME/.vim_runtime" ]
     then
@@ -420,4 +428,8 @@ function check_temperature {
         fi
         echo "$ICON${TEMP_INTEGER}$LABEL"
     fi
+}
+
+function ipinfo {
+    curl ipinfo.io
 }
