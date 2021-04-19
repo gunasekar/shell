@@ -333,7 +333,7 @@ function shoutcast {
         brew install curl
     fi
     
-    result=$(curl 'http://directory.shoutcast.com/Search/UpdateSearch' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'query='$1'')
+    result=$(curl -s 'http://directory.shoutcast.com/Search/UpdateSearch' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'query='$1'')
     noOfStations=$(echo $result | jq ". | length")
     echo "$noOfStations found"
     if [ $# -ge 2 ]
@@ -366,7 +366,7 @@ function play-shoutcast-station {
         brew install curl
     fi
 
-    result=$(curl 'http://directory.shoutcast.com/Player/GetStreamUrl' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'station='$1'')
+    result=$(curl -s 'http://directory.shoutcast.com/Player/GetStreamUrl' -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' --data 'station='$1'')
     # first sed removes the double quotes prefix and suffix. second sed removes '?icy=http'
     link=$(sed -e 's/^"//' -e 's/"$//' <<<"$result" | sed "s/?icy=http//")
     mpv $link
