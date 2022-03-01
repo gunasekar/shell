@@ -437,3 +437,7 @@ function ipinfo {
 function download_m3u8 {
     echo "Enter m3u8 link:";read link;echo "Enter output filename:";read filename;ffmpeg -i "$link" -bsf:a aac_adtstoasc -vcodec copy -c copy -crf 50 $filename.mp4
 }
+
+function deduplicate {
+    sort $1 | uniq
+}
