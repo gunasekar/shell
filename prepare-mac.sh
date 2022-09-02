@@ -37,9 +37,9 @@ function install_brew {
 
 function install_brew_cask {
     for i in $*; do
-        if ! brew cask list $i &>/dev/null; then
+        if ! brew list --cask $i &>/dev/null; then
             echo "Installing $i"
-            brew cask install $i
+            brew install  --cask $i
         else
             echo "$i already installed"
         fi
@@ -49,7 +49,7 @@ function install_brew_cask {
 ##### tools
 function prep_tools {
     install_brew wget ranger oath-toolkit jq
-    install_brew_cask google-chrome filezilla itsycal bitbar
+    install_brew_cask google-chrome itsycal bitbar
 }
 
 ##### terminals
@@ -71,7 +71,7 @@ function prep_languages {
 ##### development tools
 function prep_dev_tools {
     # CLIs
-    install_brew mycli pgcli bitwarden-cli awscli aws-okta
+    install_brew mycli pgcli bitwarden-cli awscli
     
     # P Tools
     install_brew wget oath-toolkit jq nmap textql gist tig graphviz fzf
@@ -83,7 +83,7 @@ function prep_dev_tools {
     install_brew_cask atom sublime-text  visual-studio-code
     
     # CASK - UI tools
-    install_brew_cask dbeaver-community postman fork boostnote
+    install_brew_cask sequel-ace dbeaver-community postman fork boost-note
 }
 
 function prep_docker {

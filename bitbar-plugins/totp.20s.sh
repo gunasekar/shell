@@ -22,7 +22,7 @@ source ~/.secrets
 
 # oath-toolkit needs to be installed. Use 'brew install oath-toolkit'
 # update the appropriate path of oathtool binary below
-oathtool="/usr/local/bin/oathtool"
+oathtool="/opt/homebrew/bin/oathtool"
 
 function get-totp {
   $oathtool --totp -b "$1"
