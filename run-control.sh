@@ -293,40 +293,6 @@ function get-metadata {
     ffprobe $@ 2>&1 | grep -A20 'Metadata:'
 }
 
-function search-albums {
-    if ! hash jq 2>/dev/null; then
-        echo "jq not found. brewing..."
-        brew install jq
-    fi
-
-    result=$(curl -s "http://www.starmusiq.top/all-process.asp?action=LoadSearchKeywords&dataType=json&query=$1")
-    #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,.link"
-    #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq ".[] | .movie,(.link | split(\"?\") | last)"
-    #echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq "[.[] | { movie:.movie, link:(.link | split(\"?\") | last)}]"
-    echo $result | jq "[.[] | select( .type | contains(\"album\"))]" | jq "[.[] | { movie:.movie, link:(.link | split(\"?\") | last)}]" | jq ".[] | \"\(.movie) --> \(.link)\""
-}
-
-function dl-albums {
-    if ! hash wget 2>/dev/null; then
-        echo "wget not found. brewing..."
-        brew install wget
-    fi
-
-    for id in $@
-    do
-        find="download-7s-zip-new/"
-        find_quoted=$(printf '%s' "$find" | sed 's/[#\]/\\\0/g')
-        replace="download-7s-zip-new/download-4.ashx"
-        replace_quoted=$(printf '%s' "$replace" | sed 's/[#\]/\\\0/g')
-        download_url=$(wget -qO- http://www.starmusiq.top/tamil_movie_songs_listen_download.asp\?MovieId\=$id | grep -E 'http://www.starfile.pw/download-7s-zip-new/\?Token=[\w=]*' |	grep -E '320' | grep -Eoi '<a [^>]+>' | grep -Eo 'href="[^\"]+"'| grep -Eo '(http|https)://[^ "]+' | sed -e "s#$find_quoted#$replace_quoted#g")
-        echo "Downloading..." $download_url
-        mkdir -p $audioDir
-        wget $download_url -O $audioDir/$id.zip
-        unzip $audioDir/$id.zip -d $audioDir
-        rm -f $audioDir/$id.zip
-    done
-}
-
 function shoutcast {
     if ! hash curl 2>/dev/null; then
         echo "curl not found. brewing..."
