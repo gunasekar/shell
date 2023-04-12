@@ -293,6 +293,49 @@ function get-metadata {
     ffprobe $@ 2>&1 | grep -A20 'Metadata:'
 }
 
+function market() {
+    if ! hash curl 2>/dev/null; then
+        echo "curl not found. brewing..."
+        brew install curl
+    fi
+
+    if ! hash jp 2>/dev/null; then
+        echo "jp not found. brewing..."
+        brew install jp
+    fi
+
+    declare -a sentiments=("🟢 Extreme Fear" "🟠 Fear" "🟠 Greed" "🔴 Extreme Greed")
+    data=$(curl -s "https://api.smallcase.com/market/indices/marketMoodIndex")
+    current=$(echo $data | jq '.data.current' )
+    indicator=$(echo $current | jq '.indicator' )
+    printf -v i2f "%.2f" $indicator
+    printf -v i "%.f" $indicator
+    let segment=$i/25+1
+    sentiment=${sentiments[$segment]}
+    echo "MMI $sentiment $i2f\n"
+
+    height=20
+    width=200
+
+    if [[ $# -gt 0 ]]; then
+        while getopts d:y: flag
+        do
+            case "${flag}" in
+                d) days=${OPTARG};;
+                y) yaxis=${OPTARG};;
+            esac
+        done
+
+        for i in $(echo $yaxis | sed "s/,/ /g")
+        do
+            echo $i | tr '[:lower:]' '[:upper:]'
+            echo $data | jq '.data.daily[-'$days':]' | jp -type line -height $height -width $width -xy "..[date,$i]"
+        done
+    else
+        echo $data | jq '.data.daily[-365:]' | jp -type line -height $height -width $width -xy "..[date,indicator]"
+    fi
+}
+
 function shoutcast {
     if ! hash curl 2>/dev/null; then
         echo "curl not found. brewing..."
